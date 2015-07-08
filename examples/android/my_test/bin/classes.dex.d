@@ -1,0 +1,20 @@
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes.dex : \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/R$dimen.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/R$id.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/R$attr.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/MainActivity.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/R$mipmap.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/R.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/MainActivity$2.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/MainActivity$3.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/BuildConfig.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/R$layout.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/MainActivity$4.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/NativeWebRtcTransport.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/R$string.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/NativeWebRtcTransport$RecievedMessage.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/NativeWebRtcTransport$SendMessage.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/classes/org/webrtc/webrtcdemo/MainActivity$1.class \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/dexedLibs/audio_device_module_java-338e73608e5b4f12c4313125b1b685c4.jar \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/dexedLibs/video_render_module_java-1cee3882a731cf4d954d1e22e2029f0a.jar \
+/home/wanghao/webrtc/src/webrtc/examples/android/my_test/bin/dexedLibs/video_capture_module_java-c3c78a98b0cc89f0aebb7e42857a1031.jar \
