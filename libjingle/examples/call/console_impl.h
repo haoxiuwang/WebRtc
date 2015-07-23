@@ -31,7 +31,6 @@ protected:
 private:
 	bool isTaskStart_;
 	Enum_SendMessage current_msg_;
-	ManagedDataWriter* writer;
 	int next_;
 
 };
