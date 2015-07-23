@@ -8,7 +8,7 @@
           'target_name': 'libmylibjingle-jni',
           'type': 'loadable_module',
           'dependencies': [
-             '<(webrtc_root)/multiplatforms/public_gyp.gyp:public_call',
+             '<(webrtc_root)/multiplatforms_gyp/public_gyp.gyp:public_call',
              '<(DEPTH)/third_party/icu/icu.gyp:icuuc',
            # '<(webrtc_root)/modules/modules.gyp:video_capture_module_internal_impl',
            # '<(webrtc_root)/test/test.gyp:channel_transport',
