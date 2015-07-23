@@ -231,13 +231,13 @@ void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data)
 		}
 		break;
 	case R_CALL_TERMINATE:
-		this->PrintLine("对方终止Call");
+		temp_console->PrintLine("对方终止Call");
 
 		//message+=("you received session terminate from friend!");
 		break;
 	case R_CALL:
 
-		this->PrintLine("对方发送Call请求");
+		temp_console->PrintLine("对方发送Call请求");
 
 		/*client_thread_->Post(this, MSG_INPUT,
 		new rtc::TypedMessageData<std::string>("accept"));*/

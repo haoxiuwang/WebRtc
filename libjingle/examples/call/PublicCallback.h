@@ -416,7 +416,7 @@ public:
 	~ThreadShareData();
 	void WriteInt(int value,int pos);
 	void WriteString(std::string strUtf8,int pos);
-	void WriteAnciString(char* strAnci, int pos);
+	void WriteAnciString(const char* strAnci, int pos);
 	void WriteLong(long value,int pos);
 	int ReadInt(int pos);
 	long ReadLong(long pos);

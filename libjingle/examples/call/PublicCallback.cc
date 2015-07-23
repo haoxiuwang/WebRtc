@@ -35,7 +35,7 @@ void ThreadShareData::WriteString(std::string strUtf8, int index) {
 	*(string_array_ + index) = strUtf8;
 }
 
-void ThreadShareData::WriteAnciString(LPCSTR strAnci, int index){
+void ThreadShareData::WriteAnciString(const char* strAnci, int index){
 	LPWSTR wstr = AnsiToWchar(strAnci);
 	WriteString(std::string(WcharToUtf8(wstr)), index);
 	::HeapFree(GetProcessHeap(),0,wstr);
