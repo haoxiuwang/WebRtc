@@ -136,7 +136,7 @@
            'target_name': 'call',
            'type': 'executable',
            'dependencies': [
-             '<(webrtc_root)/multiplatforms/public_gyp.gyp:public_call',],
+             '<(webrtc_root)/multiplatforms_gyp/public_gyp.gyp:public_call',],
            'sources': [
              'examples/call/talk_call_console.cc',
              'examples/call/console_impl.cc',
