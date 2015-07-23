@@ -142,14 +142,13 @@ using namespace webrtc::videocapturemodule;
     return NO;
   }
 
-
-/*  if ([_captureSession canSetSessionPreset:AVCaptureSessionPreset1920x1080]) {
+#if defined(WEBRTC_IOS)
+if ([_captureSession canSetSessionPreset:AVCaptureSessionPreset1920x1080]) {
     if (capability.width > 1920 || capability.height > 1080) {
       return NO;
     }
-  } else */
-//edited
-
+  } 
+#endif
 
 if ([_captureSession
                  canSetSessionPreset:AVCaptureSessionPreset1280x720]) {
@@ -194,10 +193,11 @@ if ([_captureSession
   NSString* captureQuality =
       [NSString stringWithString:AVCaptureSessionPresetLow];
 
-/*
+#if defined(WEBRTC_IOS)
   if (_capability.width >= 1920 || _capability.height >= 1080) {
     captureQuality = [NSString stringWithString:AVCaptureSessionPreset1920x1080];
-  } else */ //edited
+  }
+#endif
 
   if (_capability.width >= 1280 || _capability.height >= 720) {
     captureQuality = [NSString stringWithString:AVCaptureSessionPreset1280x720];
@@ -252,7 +252,7 @@ if ([_captureSession
     return;
   // edited switch ([UIApplication sharedApplication].statusBarOrientation) {
 
-/*
+#if defined(WEBRTC_IOS)
     switch ([NSApplication sharedApplication].statusBarOrientation) {
     case UIInterfaceOrientationPortrait:
 #if defined(__IPHONE_8_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
@@ -270,8 +270,8 @@ if ([_captureSession
     case UIInterfaceOrientationLandscapeRight:
       _connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
       break;
-  } edited */
-
+  }
+#endif
 
 }
 

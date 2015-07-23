@@ -1,32 +1,29 @@
 #pragma once
-#ifndef PUBLIC_CALL_BACK_FUNCTION_H
-#define PUBLIC_CALL_BACK_FUNCTION_H
-
-#include <jni.h>
+#ifndef PUBLIC_CALL_BACK_FUNCTION_H_
+#define PUBLIC_CALL_BACK_FUNCTION_H_
 
 #include <string>
-//WH
-#include <android/log.h>
 #include <stdio.h>
 
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__)
 
 #include "webrtc/base/thread.h"
 #include "webrtc/base/messagehandler.h"
+#include "webrtc/libjingle/examples/call/CommonUtilities.h"
 
 enum Enum_RecievedMessage
 {
 
-// 传输Xmpp协议
+#pragma region 传输Xmpp协议
 	/// <summary>
 	/// 收到由libjingle传输层转发的Xmpp协议
 	/// lpstr XmppProtocol;  int ByteLength
 	/// </summary> 
 	R_XMPP_PROTOCOL = 0,
 
-//  传输Xmpp协议End
+#pragma endregion  传输Xmpp协议
 
-// 登陆状态
+#pragma region 登陆状态
 
 	/// <summary>
 	/// 正在登陆
@@ -44,9 +41,9 @@ enum Enum_RecievedMessage
 	/// </summary>
 	R_LOGGED_OUT,
 
-// 登陆状态End
+#pragma endregion 登陆状态
 
-// 文件传输
+#pragma region 文件传输
 
 	/// <summary>
 	/// 文件发送方已创建Session组件，返回SessionId
@@ -84,11 +81,11 @@ enum Enum_RecievedMessage
 	/// </summary>
 	R_FILE_PROGRESS,
 
-// 文件传输End
+#pragma endregion 文件传输
 
-// 视频音频
+#pragma region 视频音频
 
-// 会话协议
+#pragma region 会话协议
 
 	/// <summary>
 	/// 对方发送Call请求
@@ -111,8 +108,9 @@ enum Enum_RecievedMessage
 	/// </summary>
 	R_CALL_TERMINATE,
 
-// 会话协议End
+#pragma endregion 会话协议
 
+#pragma region Capture及Frame
 	/// <summary>
 	/// 对方开启远程桌面
 	/// </summary>
@@ -122,18 +120,6 @@ enum Enum_RecievedMessage
 	/// 对方开启摄像头捕获
 	/// </summary>
 	R_CAMERA,
-
-	/// <summary>
-        ///  获得本地的视频帧
-        ///  void* 帧buffer int width int height
-        /// </summary>
-        R_LOCAL_FRAME_METADATA,
-
-        /// <summary>
-        ///  获得对方的视频帧
-        ///  void* 帧buffer int width int height
-        /// </summary>
-        R_REMOTE_FRAME_METADATA,
 
 	/// <summary>
 	/// 对方关掉视频捕获
@@ -152,18 +138,31 @@ enum Enum_RecievedMessage
 	/// </summary>
 	R_REMOTE_RENDERER_HANDLE,
 
-        /// <summary>
-        ///  获得本地的视频帧
-        /// </summary>
-        R_LOCAL_FRAME_COMING = 115,
+	/// <summary>
+	///  获得本地的视频帧
+	///  void* 帧buffer int width int height
+	/// </summary>
+	R_LOCAL_FRAME_METADATA,
 
-        /// <summary>
-        ///  获得对方的视频帧
-        /// </summary>
-        R_REMOTE_FRAME_COMING,
+	/// <summary>
+	///  获得对方的视频帧
+	///  void* 帧buffer int width int height
+	/// </summary>
+	R_REMOTE_FRAME_METADATA,
 
+	/// <summary>
+	///  获得本地的视频帧
+	/// </summary>
+	R_LOCAL_FRAME_COMING = 115,
 
-// 视频音频End
+	/// <summary>
+	///  获得对方的视频帧
+	/// </summary>
+	R_REMOTE_FRAME_COMING,
+
+#pragma endregion Capture及Frame
+
+#pragma endregion 视频音频
 
 	///<summary>
 	///调试信息	lpwstr info;	lpwstr content;
@@ -173,26 +172,45 @@ enum Enum_RecievedMessage
 
 enum Enum_SendMessage
 {
-// 传输Xmpp协议
+
+#pragma region 传输Xmpp协议
 
 	/// <summary>
 	/// 利用libjingle传输层转发xmpp协议
 	/// lpstr XmppProtocl
 	/// </summary>
-	S_XMPPP_ROTOCOL = 0,
+	S_XMPP_PROTOCOL = 0,
 
-// 传输Xmpp协议End
+#pragma endregion 传输Xmpp协议
 
-// 登陆状态
+#pragma region 传输STUN服务器地址
+	/// <summary>
+	/// 传输STUN服务器IP地址和端口
+	/// lpstr stun_ip_addr; int stun_port;
+	/// </summary>
+	S_STUN_ADDRESS = 5,
+
+#pragma endregion 传输STUN服务器地址
+
+#pragma region 登陆状态
 
 	/// <summary>
 	/// 从服务器登出
 	/// </summary>
 	S_LOGOUT = 10,
 
-// 登陆状态End
+#pragma endregion 登陆状态
 
-// 文件传输
+#pragma region 其他
+
+	/// <summary>
+	/// 查看好友列表
+	/// </summary>
+	S_ROSTER = 20,
+
+#pragma endregion 其他
+
+#pragma region 文件传输
 
 	/// <summary>
 	/// 发送文件
@@ -216,22 +234,36 @@ enum Enum_SendMessage
 	/// 终止传输文件
 	/// lpstr SessionId;
 	/// </summary>
-	S_FILE_TERMINTATE,
+	S_FILE_TERMINATE,
 
-// 文件传输End
+#pragma endregion 文件传输
 
-// 视频音频
+#pragma region 视频音频
 
-// 会话协议
+#pragma region 纯音频
 
 	/// <summary>
 	/// Call请求
+	/// lpstr RecieveJid; 
+	/// </summary>
+	S_AUDIO = 90,
+	/// <summary>
+	/// Call接受
+	/// </summary>
+	S_AUDIO_ACCEPT,
+
+#pragma endregion 纯音频
+
+#pragma region 会话协议
+
+	/// <summary>
+	/// Vcall请求
 	/// lpstr RecieveJid;  int localWidth;  int localHeight; int remoteWidth;  int remoteHeight
 	/// </summary>
 	S_CALL = 100,
 
 	/// <summary>
-	/// 接受Call
+	/// 接受Vcall
 	/// int localWidth;  int localHeight; int remoteWidth;  int remoteHeight
 	/// </summary>
 	S_CALL_ACCEPT,
@@ -246,8 +278,9 @@ enum Enum_SendMessage
 	/// </summary>
 	S_HANG_UP,
 
-// 会话协议End
+#pragma endregion 会话协议
 
+#pragma region Mute及音量控制
 	/// <summary>
 	/// 停止己方的音频传输
 	/// </summary>
@@ -274,6 +307,9 @@ enum Enum_SendMessage
 	/// </summary>
 	S_VIDEO_UNMUTE,
 
+#pragma endregion Mute及音量控制
+
+#pragma region Capture及Renderer
 	/// <summary>
 	/// 开启远程桌面
 	/// </summary>
@@ -289,53 +325,90 @@ enum Enum_SendMessage
 	/// </summary>
 	S_STOP_CAPTURE,
 
+	//unused
 	/// <summary>
 	/// 重设捕获的视频数据
 	/// int Width;  int Height;  int Interval;  int ColorSpace; 
 	/// </summary>
 	S_RESTART_CAPTURE,
 
+	//unused
 	/// <summary>
 	/// 打开本地视频Renderer
 	/// int Width;  int Height; void* parentHandle
 	/// </summary>
 	S_OPEN_LOCAL_RENDERER,
 
+	//unused
 	/// <summary>
 	/// 打开对方视频Renderer
 	/// int Width;  int Height; void* parentHandle
 	/// </summary>
 	S_OPEN_REMOTE_RENDERER,
 
-// 视频音频End
+	//unused
+	/// <summary>
+	/// 创建 Local Remote——SurfaceView
+	/// long local;  long remote;
+	/// </summary>
+	S_REGISTER_SV,
 
-// 录音
+#pragma endregion Capture及Renderer
+
+#pragma region 多会话
+
+	/// <summary>
+	/// AddSession
+	/// string jid
+	/// </summary>
+	S_ADD_SESSION,
+
+	/// <summary>
+	/// RemoveSession
+	/// string roomid
+	/// </summary>
+	S_RM_SESSION,
+#pragma endregion 多会话
+
+
+#pragma endregion 视频音频
+
+#pragma region 录音
 
 	/// <summary>
 	/// 开始录音
 	/// </summary>
-	S_RECORD = 150,
+	S_RECORD = 130,
 
 	/// <summary>
 	/// 停止录音
 	/// </summary>
 	S_UNRECORD,
 
-// 录音End
+#pragma endregion 录音
 
-	///<summary>
-	///调试信息	lpwstr info;	lpwstr content;
-	///</summary>
-	S_DEBUG_INFO,
-
-//创建 Local Remote——SurfaceView
+#pragma region MUC
 	/// <summary>
-	/// Local_SurfaceView Remote_SurfaceView
-	/// long local;  long remote;
+	/// 创建多人聊天室
+	/// string room_jid_str
 	/// </summary>
-        S_REGISTER_SV
-};
+	S_JOIN_MUC = 150,
 
+	/// <summary>
+	/// 邀请对方加入多人聊天室
+	/// string jid; string roomid
+	/// </summary>
+	S_INVITE_MUC,
+
+	/// <summary>
+	/// 离开多人聊天室
+	/// string roomid
+	/// </summary>
+	S_LEAVE_MUC,
+
+#pragma endregion MUC
+
+};
 
 class ThreadShareData
 {
@@ -344,6 +417,7 @@ public:
 	~ThreadShareData();
 	void WriteInt(int value,int pos);
 	void WriteString(std::string strUtf8,int pos);
+	void WriteAnciString(LPCSTR strAnci, int pos);
 	void WriteLong(long value,int pos);
 	int ReadInt(int pos);
 	long ReadLong(long pos);
@@ -355,56 +429,10 @@ private:
 	long* long_array_ = NULL;
 };
 
+//edtied 各平台各自实现
+extern void MyPrint(std::string str);
 
-/*
-class ManagedDataReader
-{
-	public:
-		ManagedDataReader(void** pointer);
-		int ReadInt();
-		std::string ReadString();
-		std::wstring ReadUnicode();
-		LPCSTR ReadString_s();
-		void ReadToEnd();
+//edited MultiPlatformsCallBack，各平台各自实现
+extern void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data);
 
-	private:
-		void** _pointer;
-		int    _offset;
-};
-
-class ManagedDataWriter
-{
-	public:
-		ManagedDataWriter(int m_count);
-		void WriteInt(int value);
-		void WriteString(LPCSTR strUtf8);
-		void WriteAnciString(LPCSTR strUtf8);
-		void WriteUnicodeToUtf8(LPWSTR strUnicode);
-		void WritePointer(void* pointer);
-		void** ToArray();
-
-	private:
-		void** pointer_;
-		int    offset_;
-};*/
-
-
-//SurfaceView
-extern void* sv_local;
-extern void* sv_remote;
-
-//WorkThread
-extern rtc::Thread* my_workerthread;
-extern rtc::Thread* my_clientthread;
-
-//获取跟线程相关的Env //暂废
-extern JNIEnv* GetThreadEnv(bool thread);
-
-//JAVA_VM
-extern JavaVM* g_vm;
-
-//WH——Java CallBack接口函数
-extern void NewDayCallback(Enum_RecievedMessage command, ThreadShareData* data);
-extern void callBack_Test_Method(std::string s);
-
-#endif
+#endif //PUBLIC_CALL_BACK_FUNCTION_H_

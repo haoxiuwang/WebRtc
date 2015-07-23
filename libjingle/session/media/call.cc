@@ -38,8 +38,6 @@
 #include "webrtc/base/window.h"
 #include "webrtc/libjingle/session/media/mediasessionclient.h"
 #include "webrtc/libjingle/session/parsing.h"
-//WH
-#include "webrtc/libjingle/examples/call/PublicCallback.h"
 
 namespace cricket {
 
@@ -1168,18 +1166,14 @@ AudioSourceProxy* Call::GetAudioSourceProxy() {
 
 	}
 
-          bool Call::StartVideoCapture(Session* session, uint32 ssrc ,bool isScreencast){
+bool Call::StartVideoCapture(Session* session, uint32 ssrc ,bool isScreencast){
 		MediaSessionMap::iterator it = media_session_map_.find(session->id());
-		callBack_Test_Method("Call::StartVideoCapture");
 
 		if (it == media_session_map_.end()) {
-
 			LOG(LS_INFO) << "can’t find session in media_session_map";
-
 			return false;
 		}				
 
-		callBack_Test_Method("GetVideoChannel(session");
 		VideoChannel *video_channel = GetVideoChannel(session);
 
 		if (!video_channel) {
@@ -1192,8 +1186,8 @@ AudioSourceProxy* Call::GetAudioSourceProxy() {
 			delete capturer_;
 			capturer_ = NULL;
 		}
-		callBack_Test_Method("channel_manager()->CreateVideoCapturer");
-		capturer_ = session_client_->channel_manager()->CreateVideoCapturer();
+
+		capturer_ = session_client_->channel_manager()->CreateVideoCapturer(isScreencast);
 		if (capturer_ == NULL) {
 			LOG(LS_WARNING) << "Could not create screencast capturer.";
 			return false;
@@ -1204,12 +1198,8 @@ AudioSourceProxy* Call::GetAudioSourceProxy() {
 		if (!session_client_->channel_manager()->StartVideoCapture(
 			capturer_, format)) {
 				LOG(LS_WARNING) << "Could not start video capture.";
-		callBack_Test_Method("Could not start video capture");
 				return false;
 		}
-
-//LOG(LS_INFO) << "Call StartVideoCapture";
-		callBack_Test_Method("if (!video_channel->SetCapturer");
 
 		if (!video_channel->SetCapturer(ssrc, capturer_)) {
 			LOG(LS_WARNING) << "Could not set capturer.";
@@ -1225,32 +1215,27 @@ AudioSourceProxy* Call::GetAudioSourceProxy() {
 	bool Call::StopVideoCapture(bool removeRender){
 		cricket::VideoFormat format = ScreencastFormatFromFps(-1);
 
-		if(local_renderer_ && !session_client_->channel_manager()->RemoveVideoRenderer(capturer_,local_renderer_))
+		if(local_renderer_ && !session_client_->channel_manager()->RemoveVideoRenderer(capturer_, local_renderer_))
 		{
-			callBack_Test_Method("Cannot remove local renderer");
 			LOG(LS_WARNING) << "Cannot remove local renderer";
 			return false;
 		}
 
-
-		if(!session_client_->channel_manager()->StopVideoCapture(capturer_,format)){
+		if(!session_client_->channel_manager()->StopVideoCapture(capturer_,format))
+		{
 			LOG(LS_WARNING) << "Cannot stop current capture";
-			callBack_Test_Method("Cannot stop current capture");
 			return false;
 		}
 	    
 		/*if(removeRender){
-
 		delete local_renderer_;
 		local_renderer_ = NULL;
 		}*/
 
 		delete capturer_;
 		capturer_ = NULL;
-callBack_Test_Method("capturer_ = NULL , return true");
 		return true;
 	}
-
 
        bool Call::SetLocalRenderer(VideoRenderer* renderer) {
 		if(!session_client_->channel_manager()->AddVideoRenderer(capturer_,renderer)){

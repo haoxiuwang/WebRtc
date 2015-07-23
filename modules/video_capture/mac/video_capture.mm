@@ -21,9 +21,9 @@
 using namespace webrtc;
 using namespace videocapturemodule;
 
-
+//edited isScreenCast暂时不用，以后扩展
 VideoCaptureModule* VideoCaptureImpl::Create(const int32_t capture_id,
-                                             const char* deviceUniqueIdUTF8) {
+                                             const char* deviceUniqueIdUTF8, bool isScreenCast) {
   return VideoCaptureIos::Create(capture_id, deviceUniqueIdUTF8);
 }
 

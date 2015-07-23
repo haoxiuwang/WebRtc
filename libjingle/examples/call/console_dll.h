@@ -1,12 +1,8 @@
 #pragma once
-#ifndef TALK_EXAMPLES_CALL_CONSOLE_IMP_H_
-#define TALK_EXAMPLES_CALL_CONSOLE_IMP_H_
+#ifndef WEBRTC_LIBJINGLE_EXAMPLES_CALL_CONSOLE_DLL_H_
+#define WEBRTC_LIBJINGLE_EXAMPLES_CALL_CONSOLE_DLL_H_
 
-#include "webrtc/base/logging.h"
-#include "webrtc/base/messagequeue.h"
 #include "webrtc/libjingle/examples/call/console.h"
-#include "webrtc/libjingle/examples/call/callclient.h"
-#include "webrtc/libjingle/examples/call/PublicCallback.h"
 
 class CommandData : public rtc::MessageData 
 {
@@ -19,9 +15,7 @@ private:
 	ThreadShareData* data_;
 };
 
-
 class Console_Dll : public Console{
-
 public:
 	Console_Dll(rtc::Thread *thread, CallClient *client);
 	~Console_Dll();
@@ -41,9 +35,6 @@ public:
 protected:
 	void RunConsole();
 	void ParseLine(std::string &str);
-
-private:
-	rtc::scoped_ptr<rtc::Thread> console_thread_;
 };
 
-#endif//TALK_EXAMPLES_CALL_CONSOLE_IMP_H_
+#endif//WEBRTC_LIBJINGLE_EXAMPLES_CALL_CONSOLE_DLL_H_

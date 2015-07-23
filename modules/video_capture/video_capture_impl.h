@@ -38,7 +38,7 @@ public:
      *   deviceUniqueIdUTF8 -  name of the device. Available names can be found by using GetDeviceName
      */
     static VideoCaptureModule* Create(const int32_t id,
-                                      const char* deviceUniqueIdUTF8);
+                                      const char* deviceUniqueIdUTF8, bool isScreenCast);
 
     /*
      *   Create a video capture module object used for external capture.

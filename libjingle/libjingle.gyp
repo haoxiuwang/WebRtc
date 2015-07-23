@@ -130,119 +130,20 @@
     },  # target login
   ],
   'conditions': [
-    # TODO(ronghuawu): Reenable building call.
- ['OS=="android"', {
-      'targets': [
-        { # WH mylibjingle-jni
-          'target_name': 'libmylibjingle-jni',
-          'type': 'loadable_module',
-          'dependencies': [
-	     '<(talk_root)/libjingle.gyp:libjingle_p2p',
-             'libjingle_xmpphelp',
-             'jingle_session',
-            '<(DEPTH)/third_party/icu/icu.gyp:icuuc',
-           # '<(webrtc_root)/common.gyp:webrtc_common',
-           # '<(webrtc_root)/modules/modules.gyp:video_capture_module_internal_impl',
-           # '<(webrtc_root)/modules/modules.gyp:video_render_module_internal_impl',
-            '<(webrtc_root)/system_wrappers/system_wrappers.gyp:system_wrappers_default',
-           # '<(webrtc_root)/test/test.gyp:channel_transport',
-           # '<(webrtc_root)/video_engine/video_engine.gyp:video_engine_core',
-           # '<(webrtc_root)/voice_engine/voice_engine.gyp:voice_engine',
-          ],
-          'sources': [
-            '<(webrtc_root)/examples/android/media_demo/jni_wh/jni_helpers.h',
-            '<(webrtc_root)/examples/android/media_demo/jni_wh/jni_helpers.cc',
-            '<(webrtc_root)/examples/android/media_demo/jni_wh/on_load.cc',
-	     'examples/call/call_dll_main.h',
-             'examples/call/callclient.cc',
-             'examples/call/callclient.h',
-             'examples/call/console.cc',
-             'examples/call/console.h',
-             'examples/call/CommonUtilities.h',
-             'examples/call/CommonUtilities.cc',
-             'examples/call/console_dll.h',
-             'examples/call/console_dll.cc',
-             'examples/call/PublicCallback.h',
-             'examples/call/PublicCallback.cc',
-             'examples/call/friendinvitesendtask.cc',
-             'examples/call/friendinvitesendtask.h',
-             'examples/call/muc.h',
-             'examples/call/mucinviterecvtask.cc',
-             'examples/call/mucinviterecvtask.h',
-             'examples/call/mucinvitesendtask.cc',
-             'examples/call/mucinvitesendtask.h',
-             'examples/call/presencepushtask.cc',
-             'examples/call/presencepushtask.h',
-          ],
-          'variables': {
-            # This library uses native JNI exports; tell GYP so that the
-            # required symbols will be kept.
-            'use_native_jni_exports': 1,
-          },
-          'link_settings': {
-            'libraries': [
-              '-llog',
-              '-lGLESv2',
-              '-lOpenSLES',
-            ],
-          }
-        },
-      ],
-    } #end mylibjingle-jni
- ],
     ['OS!="android"', {
        'targets': [
-
- {
+         { # target call
            'target_name': 'call',
            'type': 'executable',
            'dependencies': [
-             '<(talk_root)/libjingle.gyp:libjingle_p2p',
-             'libjingle_xmpphelp',
-             'jingle_session',],
+             '<(webrtc_root)/multiplatforms/public_gyp.gyp:public_call',],
            'sources': [
-             'examples/call/call_main.cc',
-             'examples/call/callclient.cc',
-             'examples/call/callclient.h',
-             'examples/call/console.cc',
-             'examples/call/console.h',
-             'examples/call/friendinvitesendtask.cc',
-             'examples/call/friendinvitesendtask.h',
-             #’examples/call/mediaenginefactory.cc',
-             #’examples/call/mediaenginefactory.h',
-             'examples/call/muc.h',
-             'examples/call/mucinviterecvtask.cc',
-             'examples/call/mucinviterecvtask.h',
-             'examples/call/mucinvitesendtask.cc',
-             'examples/call/mucinvitesendtask.h',
-             'examples/call/presencepushtask.cc',
-             'examples/call/presencepushtask.h',
+             'examples/call/talk_call_console.cc',
+             'examples/call/console_impl.cc',
+             'examples/call/console_impl.h',
            ],
-           'conditions': [
-             ['OS=="linux"', {
-               'link_settings': {
-                 'libraries': [
-                   '<!@(pkg-config --libs-only-l gobject-2.0 gthread-2.0'
-                       ' gtk+-2.0)',
-                 ],
-               },
-             }],
-             ['OS=="win"', {
-               'msvs_settings': {
-                 'VCLinkerTool': {
-                   'AdditionalDependencies': [
-                     'strmiids.lib',
-                   ],
-                 },
-               },
-             }],
-           ],  # conditions
-         },
+         },# target call end
 
-
-
-
-  # target call
        ], # targets
      }],  # OS!="android"
   ],

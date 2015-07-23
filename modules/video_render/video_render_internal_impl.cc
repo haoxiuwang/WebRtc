@@ -56,8 +56,8 @@
 #define STANDARD_RENDERING kRenderExternal
 #endif  // STANDARD_RENDERING
 
-//WH
-#include "webrtc/libjingle/examples/call/PublicCallback.h"
+//edited
+#include "webrtc/libjingle/examples/call/talk_call_android.h"
 
 namespace webrtc {
 
@@ -72,8 +72,7 @@ VideoRender::CreateVideoRender(const int32_t id,
     {
         resultVideoRenderType = STANDARD_RENDERING;
     }
-callBack_Test_Method("new ModuleVideoRenderImpl");
-	//WH window = NULL 此参数暂废
+
     return new ModuleVideoRenderImpl(id, resultVideoRenderType, window,
                                      fullscreen);
 }

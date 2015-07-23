@@ -33,7 +33,6 @@
 #include <unistd.h>
 #endif  // POSIX
 #include <cassert>
-#include "webrtc/base/stringutils.h"
 #include "webrtc/libjingle/examples/call/console_dll.h"
 #include "webrtc/libjingle/examples/call/CommonUtilities.h"
 
@@ -42,7 +41,7 @@ static void DoNothing(int unused) {}
 #endif
 
 Console_Dll::Console_Dll(rtc::Thread *thread, CallClient *client) :
-  Console(thread,client), console_thread_(new rtc::Thread()){
+  Console(thread,client){
 }
 
 Console_Dll::~Console_Dll() {
@@ -60,10 +59,7 @@ void Console_Dll::PrintLine(const char* format, ...) {}
 void Console_Dll::RunConsole() {}
 
 void Console_Dll::SendCommand(int command, ThreadShareData* shareData) {
-
 	this->GetClientThread()->Post(this, MSG_INPUT, new CommandData(command,shareData));
-callBack_Test_Method("Post done");
-
 }
 
 void Console_Dll::OnMessage(rtc::Message *msg) {

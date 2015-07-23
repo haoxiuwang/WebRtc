@@ -13,7 +13,6 @@
 #include "webrtc/system_wrappers/interface/critical_section_wrapper.h"
 #include "webrtc/system_wrappers/interface/tick_util.h"
 
-
 #ifdef ANDROID_LOG
 #include <android/log.h>
 #include <stdio.h>
@@ -24,9 +23,9 @@
 #include "webrtc/system_wrappers/interface/trace.h"
 #endif
 
-//WH
+//edited
 #include "webrtc/modules/utility/interface/helpers_android.h"
-#include "webrtc/libjingle/examples/call/PublicCallback.h"
+#include "webrtc/libjingle/examples/call/talk_call_android.h"
 
 namespace webrtc {
 
@@ -45,7 +44,7 @@ AndroidSurfaceViewRenderer::~AndroidSurfaceViewRenderer() {
                "AndroidSurfaceViewRenderer dtor");
   if(g_jvm) {
     // get the JNI env for this thread
-//WH
+//edited
 //    bool isAttached = false;
 //    JNIEnv* env = NULL;
 //    g_jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
@@ -79,7 +78,7 @@ AndroidSurfaceViewRenderer::~AndroidSurfaceViewRenderer() {
     ats.env()->DeleteGlobalRef(_javaRenderObj);
     ats.env()->DeleteGlobalRef(_javaRenderClass);
 
-//WH
+//edited
 /*    if (isAttached) {
       if (g_jvm->DetachCurrentThread() < 0) {
         WEBRTC_TRACE(kTraceWarning,
@@ -103,7 +102,7 @@ int32_t AndroidSurfaceViewRenderer::Init() {
     return -1;
   }
 
-//WH 此判断暂废 _ptrWindow == null
+//edited 此判断暂废 _ptrWindow == null
 /*
   if(!_ptrWindow) {
     WEBRTC_TRACE(kTraceWarning,
@@ -116,7 +115,7 @@ int32_t AndroidSurfaceViewRenderer::Init() {
 
 
 // get the JNI env for this thread
-//WH
+//edited
     AttachThreadScoped ats(g_jvm);
 //  bool isAttached = false;
 //    JNIEnv* env = NULL;
@@ -216,7 +215,7 @@ int32_t AndroidSurfaceViewRenderer::Init() {
   }
 
   // Detach this thread if it was attached
-//WH
+//edited
 /*  if (isAttached) {
     if (g_jvm->DetachCurrentThread() < 0) {
       WEBRTC_TRACE(kTraceWarning,
@@ -281,7 +280,7 @@ AndroidSurfaceViewChannel::~AndroidSurfaceViewChannel() {
   delete &_renderCritSect;
   if(_jvm) {
     // get the JNI env for this thread
-//WH
+//edited
       AttachThreadScoped ats(_jvm);
 //    bool isAttached = false;
 /*    JNIEnv* env = NULL;
@@ -308,7 +307,7 @@ AndroidSurfaceViewChannel::~AndroidSurfaceViewChannel() {
     }*/
 
     ats.env()->DeleteGlobalRef(_javaByteBufferObj);
-//WH
+//edited
 /*    if (isAttached) {
       if (_jvm->DetachCurrentThread() < 0) {
         WEBRTC_TRACE(kTraceWarning,
@@ -354,7 +353,7 @@ callBack_Test_Method("Not a valid Java VM pointer");
   }
 
   // get the JNI env for this thread
-//WH
+//edited
     AttachThreadScoped ats(_jvm);
 //  bool isAttached = false;
 //  JNIEnv* env = NULL;
@@ -447,7 +446,7 @@ callBack_Test_Method("could not get CreateByteBuffer ID");
                       left, top, right, bottom);
 
   // Detach this thread if it was attached
-//WH
+//edited
 /*  if (isAttached) {
     if (_jvm->DetachCurrentThread() < 0) {
       WEBRTC_TRACE(kTraceWarning,

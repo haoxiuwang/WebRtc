@@ -23,7 +23,7 @@
 #include "webrtc/system_wrappers/interface/trace.h"
 #endif
 
-//WH
+//edited
 #include "webrtc/modules/utility/interface/helpers_android.h"
 #include "webrtc/libjingle/examples/call/PublicCallback.h"
 
@@ -47,7 +47,7 @@ bool AndroidNativeOpenGl2Renderer::UseOpenGL2(void* window) {
     return false;
   }
 
-//WH
+//edited
     AttachThreadScoped ats(g_jvm);
 /*  bool isAttached = false;
   JNIEnv* env = NULL;
@@ -105,7 +105,7 @@ bool AndroidNativeOpenGl2Renderer::UseOpenGL2(void* window) {
 
 
   // Detach this thread if it was attached
-//WH
+//edited
 /*  if (isAttached) {
     if (g_jvm->DetachCurrentThread() < 0) {
       WEBRTC_TRACE(kTraceWarning, kTraceVideoRenderer, -1,
@@ -168,7 +168,7 @@ int32_t AndroidNativeOpenGl2Renderer::Init() {
   }
 
   // get the JNI env for this thread
-//WH
+//edited
     AttachThreadScoped ats(g_jvm);
 /*  bool isAttached = false;
   JNIEnv* env = NULL;
@@ -274,7 +274,7 @@ AndroidNativeOpenGl2Channel::~AndroidNativeOpenGl2Channel() {
                "AndroidNativeOpenGl2Channel dtor");
   if (_jvm) {
     // get the JNI env for this thread
-//WH
+//edited
     AttachThreadScoped ats(_jvm);
 /*    bool isAttached = false;
     JNIEnv* env = NULL;
@@ -326,7 +326,7 @@ int32_t AndroidNativeOpenGl2Channel::Init(int32_t zOrder,
   }
 
   // get the JNI env for this thread
-//WH
+//edited
     AttachThreadScoped ats(_jvm);
 /*  bool isAttached = false;
   JNIEnv* env = NULL;

@@ -15,9 +15,10 @@ namespace webrtc {
 
 namespace videocapturemodule {
 
+//edited isScreenCast暂时不用，以后扩展
 VideoCaptureModule* VideoCaptureImpl::Create(
     const int32_t id,
-    const char* deviceUniqueIdUTF8) {
+    const char* deviceUniqueIdUTF8, bool isScreenCast) {
   RefCountImpl<VideoCaptureImpl>* implementation =
       new RefCountImpl<VideoCaptureImpl>(id);
   return implementation;

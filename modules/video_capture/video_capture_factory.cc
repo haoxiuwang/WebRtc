@@ -15,10 +15,11 @@
 namespace webrtc
 {
 
+//edited
 VideoCaptureModule* VideoCaptureFactory::Create(const int32_t id,
-    const char* deviceUniqueIdUTF8) {
+    const char* deviceUniqueIdUTF8, bool isScreenCast) {
   LOG(LS_WARNING) << "VideoCaptureModule* VideoCaptureFactory::Create";
-  return videocapturemodule::VideoCaptureImpl::Create(id, deviceUniqueIdUTF8);
+  return videocapturemodule::VideoCaptureImpl::Create(id, deviceUniqueIdUTF8, isScreenCast);
 }
 
 VideoCaptureModule* VideoCaptureFactory::Create(const int32_t id,

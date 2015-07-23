@@ -19,7 +19,7 @@
 #include "webrtc/base/sigslot.h"
 #include "webrtc/base/stringutils.h"
 #include "xmpptask.h"
-//WH
+//edited
 #include "webrtc/libjingle/examples/call/PublicCallback.h"
 
 namespace buzz {
@@ -376,13 +376,19 @@ void XmppClient::Private::OnSocketRead() {
     client_->SignalLogInput(bytes, static_cast<int>(bytes_read));
 //#endif
 
-    //WH-CallBack
-    ThreadShareData* shareData = new ThreadShareData(1, 0, 0);
-    std::string data;
-    data.append(bytes, bytes_read);
-    shareData->WriteString(data, 0);
+//edited
+#if defined(WIN32)
+	ThreadShareData* shareData = new ThreadShareData(0, 1, 1);
+	shareData->WriteLong(reinterpret_cast<long>((void*)bytes), 0)
+	shareData->WriteInt(bytes_read, 0);
+#else
+	ThreadShareData* shareData = new ThreadShareData(1, 0, 0);
+	std::string data;
+	data.append(bytes, bytes_read);
+	shareData->WriteString(data, 0);
+#endif
 
-    NewDayCallback(R_XMPP_PROTOCOL, shareData);
+	MultiPlatformsCallback(R_XMPP_PROTOCOL, shareData);
 
     engine_->HandleInput(bytes, bytes_read);
   }

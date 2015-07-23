@@ -1,4 +1,4 @@
-/*
+﻿/*
  * libjingle
  * Copyright 2004--2005, Google Inc.
  *
@@ -23,7 +23,7 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+ */ 
 
 #ifndef WEBRTC_LIBJINGLE_EXAMPLES_CALL_CALLCLIENT_H_
 #define WEBRTC_LIBJINGLE_EXAMPLES_CALL_CALLCLIENT_H_
@@ -33,17 +33,20 @@
 #include <vector>
 
 #include "webrtc/libjingle/examples/call/console.h"
-#include "talk/media/base/mediachannel.h"
-#include "webrtc/base/scoped_ptr.h"
 #include "webrtc/base/sslidentity.h"
+#include "talk/media/base/mediachannel.h"
 #include "webrtc/libjingle/session/media/mediamessages.h"
 #include "webrtc/libjingle/session/media/mediasessionclient.h"
 #include "webrtc/libjingle/xmpp/hangoutpubsubclient.h"
 #include "webrtc/libjingle/xmpp/presencestatus.h"
 #include "webrtc/libjingle/xmpp/xmppclient.h"
 #include "webrtc/p2p/base/session.h"
-//WH
+//edited
 #include "webrtc/libjingle/examples/call/PublicCallback.h"
+//edited file share
+#include "webrtc/libjingle/session/tunnel/securetunnelsessionclient.h"
+#include "webrtc/libjingle/session/tunnel/tunnelsessionclient.h"
+#include "webrtc/p2p/client/autoportallocator.h"
 
 namespace buzz {
 class PresencePushTask;
@@ -105,7 +108,8 @@ class CallClient: public sigslot::has_slots<> {
  public:
   CallClient(buzz::XmppClient* xmpp_client,
              const std::string& caps_node,
-             const std::string& version);
+             const std::string& version
+			 bool dlltest);
   ~CallClient();
 
   cricket::MediaSessionClient* media_client() const { return media_client_; }
@@ -127,9 +131,6 @@ class CallClient: public sigslot::has_slots<> {
   void SetMultiSessionEnabled(bool multisession_enabled) {
     multisession_enabled_ = multisession_enabled;
   }
-  void SetConsole(Console *console) {
-    console_ = console;
-  }
   void SetPriority(int priority) {
     my_status_.set_priority(priority);
   }
@@ -138,9 +139,8 @@ class CallClient: public sigslot::has_slots<> {
   }
   void SendStatus(const buzz::PresenceStatus& status);
 
-  //WH
+  //edited
   void ParseLine(int command, ThreadShareData* data);
-  //void ParseLine(const std::string &str);
 
   void SendChat(const std::string& to, const std::string msg);
   void SendData(const std::string& stream_name,
@@ -186,17 +186,10 @@ class CallClient: public sigslot::has_slots<> {
 
  private:
 
-  
   // edited
-
-
+  cricket::VideoRenderer* CreatVideoRenderer(bool isLocal, int width, int height);
   bool StopVideoCapture(bool removeRenderer); 
   bool StartVideoCapture(bool isScreencast); 
-
-
-  // edited
-
-
 
   void AddStream(uint32 audio_src_id, uint32 video_src_id);
   void RemoveStream(uint32 audio_src_id, uint32 video_src_id);
@@ -296,7 +289,8 @@ class CallClient: public sigslot::has_slots<> {
   bool PlaceCall(const std::string& name, cricket::CallOptions options);
   bool InitiateAdditionalSession(const std::string& name,
                                  cricket::CallOptions options);
-  void TerminateAndRemoveSession(cricket::Call* call, const std::string& id);
+  //edited
+  void TerminateAndRemoveSession(cricket::Call* call, const std::string& id, bool stopCapture = true);
   void PrintCalls();
   void SwitchToCall(uint32 call_id);
   void Accept(const cricket::CallOptions& options);
@@ -315,22 +309,37 @@ class CallClient: public sigslot::has_slots<> {
 
   void PrintStats() const;
   void SetupAcceptedCall();
+  uint32 get_ssrc(cricket::Session *session);
 
   typedef std::map<std::string, RosterItem> RosterMap;
 
-  Console *console_;
 
-  //WH
+  //edited android 暂废
   //void* sv_local = NULL;
   //void* sv_remote = NULL;
+
+  //edited
   int local_width_; 
   int local_height_;
-  bool render_local_;
+
   int remote_width_;
   int remote_height_;
-  /*HWND remote_parent_handle_;*/
-  bool render_remote_;
-  bool is_dll_test_ = false;
+
+  bool is_dll_test_;
+
+  VideoState video_state_;
+  VideoState remote_video_state_;
+
+  std::string stun_ip_addr;
+  int stun_port;
+
+  enum VideoState
+  {
+	  State_None,
+	  State_Error,
+	  State_Video,
+	  State_Screencast
+  };
 
   buzz::XmppClient* xmpp_client_;
   rtc::Thread* worker_thread_;
@@ -378,21 +387,56 @@ class CallClient: public sigslot::has_slots<> {
 
   bool show_roster_messages_;
 
-// edited
-
-  enum VideoState
+#pragma region File Share
+#if defined(WIN32)
+  //edited file share
+  class FileProcessor : public sigslot::has_slots<>
   {
-	  State_None,
-	  State_Error,
-	  State_Video,
-	  State_Screencast
+  public:
+	  FileProcessor(bool send, std::string filename, CallClient* call,cricket::Session* session);
+
+	  bool ProcessStream(talk_base::StreamInterface* stream);
+	  void OnStreamEvent(talk_base::StreamInterface* stream, int events,
+		  int error);
+	  void Cleanup(talk_base::StreamInterface* stream, bool delay);
+	  void SetSession(cricket::Session *session);
+	  cricket::Session* GetSession(){return session_;}
+	  void SetSession(std::string filename){file_name_ = filename;}
+  private:
+	  talk_base::scoped_ptr<talk_base::FileStream> file_;
+	  char buffer_[1024 * 64];
+	  size_t buffer_len_;
+	  /*long file_len_;*/
+	  bool sending_;
+	  cricket::Session *session_;
+	  std::string file_name_;
+	  CallClient* parent_;
   };
 
-  VideoState video_state_;
-  VideoState remote_video_state_;
+  void InitiateFileShare(buzz::Jid to,std::string file_name,std::string description);
+  void OnFileSessionState(cricket::BaseSession* session,cricket::BaseSession::State state);
+  void OnIncomingTunnel(cricket::TunnelSessionClient* client, buzz::Jid jid,
+	  std::string description, cricket::Session* session) ;
+  void AcceptOrRejectFileShare(bool to_accept,std::string session_id,std::string filename,std::string path);
+  void OnFileStreamClosed(CallClient::FileProcessor *prosessor);
+  CallClient::FileProcessor* GetFileProcessor(std::string sid);
 
-// edited
 
+  std::vector<CallClient::FileProcessor*> processors_;
+  cricket::TunnelSessionClient *tunnel_client_;
 };
+
+struct EnumerateFuncData 
+{
+	EnumerateFuncData(){}
+
+	buzz::Jid to;
+	CallClient *client;
+	std::string description;
+};
+
+//edited file share
+#endif
+#pragma endregion
 
 #endif  // WEBRTC_LIBJINGLE_EXAMPLES_CALL_CALLCLIENT_H_

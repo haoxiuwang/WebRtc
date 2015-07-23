@@ -16,10 +16,9 @@
 #include "webrtc/system_wrappers/interface/thread_wrapper.h"
 #include "webrtc/system_wrappers/interface/tick_util.h"
 //WH
-#include "webrtc/libjingle/examples/call/PublicCallback.h"
+#include "webrtc/libjingle/examples/call/talk_call_android.h"
 
 #ifdef ANDROID
-#include <android/log.h>
 #include <stdio.h>
 
 #undef WEBRTC_TRACE

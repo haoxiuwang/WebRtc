@@ -1,11 +1,11 @@
 #include "webrtc/libjingle/examples/call/PublicCallback.h"
-#include "webrtc/libjingle/examples/call/CommonUtilities.h"
 
-JavaVM* g_vm = NULL;
-rtc::Thread* my_workerthread = NULL;
-rtc::Thread* my_clientthread = NULL;
-void* sv_local = NULL;
-void* sv_remote = NULL;
+void MyPrint(std::string str) {
+#if defined(TALK_CALL_CONSOLE_) || defined(WEBRTC_IOS)
+	printf("%s", chars);
+	fflush(stdout);
+#endif
+}
 
 ThreadShareData::ThreadShareData(int string_count, int int_count, int long_count) {
 	if(string_count > 0)
@@ -13,7 +13,7 @@ ThreadShareData::ThreadShareData(int string_count, int int_count, int long_count
 	if(int_count > 0)
 		int_array_ = new int[int_count];
 	if(long_count > 0)
-		long_array_ = new long[long_count];	
+		long_array_ = new long[long_count];
 }
 
 ThreadShareData::~ThreadShareData() {
@@ -35,6 +35,12 @@ void ThreadShareData::WriteString(std::string strUtf8, int index) {
 	*(string_array_ + index) = strUtf8;
 }
 
+void ThreadShareData::WriteAnciString(LPCSTR strAnci, int index){
+	LPWSTR wstr = AnsiToWchar(strAnci);
+	WriteString(std::string(WcharToUtf8(wstr)), index);
+	::HeapFree(GetProcessHeap(),0,wstr);
+}
+
 void ThreadShareData::WriteLong(long value, int index) {
 	*(long_array_ + index) = value;
 }
@@ -54,3 +60,4 @@ std::string ThreadShareData::ReadString(int index)
 	return *(string_array_ + index);
 }
 
+#endif

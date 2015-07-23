@@ -1,4 +1,3 @@
-/*
 #include "webrtc/libjingle/examples/call/CommonUtilities.h"
    
 
@@ -10,7 +9,6 @@
 	::MultiByteToWideChar(CP_ACP, 0, ansi, -1, pszW, WLength);
 	
 	return pszW;  
-
 }
 
 
@@ -119,4 +117,4 @@
 
 	//-------------------------------------------------------------------------        
 	//}catch(...){ ASSERT(0); return; }       
-} */
+}

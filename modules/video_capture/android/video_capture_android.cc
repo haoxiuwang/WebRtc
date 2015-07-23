@@ -18,8 +18,8 @@
 #include "webrtc/system_wrappers/interface/logging.h"
 #include "webrtc/system_wrappers/interface/ref_count.h"
 #include "webrtc/system_wrappers/interface/trace.h"
-//WH
-#include "webrtc/libjingle/examples/call/PublicCallback.h"
+//edited
+#include "webrtc/libjingle/examples/call/talk_call_android.h"
 
 static JavaVM* g_jvm = NULL;
 static jclass g_java_capturer_class = NULL;  // VideoCaptureAndroid.class.
@@ -95,9 +95,10 @@ int32_t SetCaptureAndroidVM(JavaVM* javaVM, jobject context) {
 
 namespace videocapturemodule {
 
+//edited isScreenCast暂时不用，以后扩展
 VideoCaptureModule* VideoCaptureImpl::Create(
     const int32_t id,
-    const char* deviceUniqueIdUTF8) {
+    const char* deviceUniqueIdUTF8, bool isScreenCast) {
   RefCountImpl<videocapturemodule::VideoCaptureAndroid>* implementation =
       new RefCountImpl<videocapturemodule::VideoCaptureAndroid>(id);
   if (implementation->Init(id, deviceUniqueIdUTF8) != 0) {
