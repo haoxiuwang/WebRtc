@@ -425,7 +425,7 @@ void CallClient::ParseLine(int command, ThreadShareData* data)
 }
 
 CallClient::CallClient(buzz::XmppClient* xmpp_client,
-    const std::string& caps_node, const std::string& version, bool dlltest)
+    const std::string& caps_node, const std::string& version, bool isdlltest)
     : xmpp_client_(xmpp_client),
       worker_thread_(NULL),
       media_engine_(NULL),

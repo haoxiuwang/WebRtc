@@ -108,8 +108,8 @@ class CallClient: public sigslot::has_slots<> {
  public:
   CallClient(buzz::XmppClient* xmpp_client,
              const std::string& caps_node,
-             const std::string& version
-			 bool dlltest);
+             const std::string& version,
+			 bool isdlltest);
   ~CallClient();
 
   cricket::MediaSessionClient* media_client() const { return media_client_; }
@@ -313,6 +313,13 @@ class CallClient: public sigslot::has_slots<> {
 
   typedef std::map<std::string, RosterItem> RosterMap;
 
+  enum VideoState
+  {
+	  State_None,
+	  State_Error,
+	  State_Video,
+	  State_Screencast
+  };
 
   //edited android 暂废
   //void* sv_local = NULL;
@@ -332,14 +339,6 @@ class CallClient: public sigslot::has_slots<> {
 
   std::string stun_ip_addr;
   int stun_port;
-
-  enum VideoState
-  {
-	  State_None,
-	  State_Error,
-	  State_Video,
-	  State_Screencast
-  };
 
   buzz::XmppClient* xmpp_client_;
   rtc::Thread* worker_thread_;
