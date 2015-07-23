@@ -142,6 +142,15 @@
              'examples/call/console_impl.cc',
              'examples/call/console_impl.h',
            ],
+		    'conditions': [
+              ['OS=="linux"', {
+               'link_settings': {
+                 'libraries': [
+                   '<!@(pkg-config --libs-only-l gobject-2.0 gthread-2.0'
+                       ' gtk+-2.0)',
+                 ],
+               },
+             }],],# condithons end
          },# target call end
 
        ], # targets
