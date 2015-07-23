@@ -9,7 +9,6 @@
 
 #include "webrtc/base/thread.h"
 #include "webrtc/base/messagehandler.h"
-#include "webrtc/libjingle/examples/call/CommonUtilities.h"
 
 enum Enum_RecievedMessage
 {
