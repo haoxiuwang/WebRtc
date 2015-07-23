@@ -1,5 +1,7 @@
 #define _CRT_SECURE_NO_DEPRECATE 1
 
+#define POSIX
+
 #ifdef POSIX
 #include <signal.h>
 #include <termios.h>
