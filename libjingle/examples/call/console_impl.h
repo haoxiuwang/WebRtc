@@ -26,6 +26,7 @@ protected:
 	 void SplitStanza(const std::string& str, std::vector<std::string>& ret_, std::string sep);
 	 void RunConsole();
 	 /*void ParseLine(std::string &str);*/
+	 bool stopped_;
 
 private:
 	bool isTaskStart_;

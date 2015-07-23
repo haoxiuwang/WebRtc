@@ -13,7 +13,7 @@ static void DoNothing(int unused) {}
 #endif
 
 Console_Impl::Console_Impl(rtc::Thread *thread, CallClient *client) :
-Console(thread,client),isTaskStart_(false),next_(0)
+Console(thread,client),isTaskStart_(false),next_(0),stopped_(false)
 {}
 
 Console_Impl::~Console_Impl() {
@@ -21,12 +21,12 @@ Console_Impl::~Console_Impl() {
 }
 
 void Console_Impl::Start() {
-	if (!console_thread_) {
+	if (stopped_) {
 		// stdin was closed in Stop(), so we can't restart.
 		LOG(LS_ERROR) << "Cannot re-start";
 		return;
 	}
-	if (console_thread_->running()) {
+	if (console_thread_) {
 		LOG(LS_WARNING) << "Already started";
 		return;
 	}
@@ -35,7 +35,7 @@ void Console_Impl::Start() {
 }
 
 void Console_Impl::Stop() {
-	if (console_thread_ && console_thread_->running()) {
+	if (console_thread_) {
 #ifdef WIN32
 		CloseHandle(GetStdHandle(STD_INPUT_HANDLE));
 #else
@@ -46,6 +46,7 @@ void Console_Impl::Stop() {
 #endif
 		console_thread_->Stop();
 		console_thread_.reset();
+		stopped_ = true;
 	}
 }
 
