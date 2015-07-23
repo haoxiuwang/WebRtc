@@ -22,7 +22,6 @@ public:
 
 protected:
 	 void ParseLine(std::string line);
-	 LPCSTR Getstr(const std::vector<std::string>& words,size_t index, const std::string& def);
 	 void Client_ParseLine(int command,const std::vector<std::string>& words,size_t index);
 	 void SplitStanza(const std::string& str, std::vector<std::string>& ret_, std::string sep);
 	 void RunConsole();

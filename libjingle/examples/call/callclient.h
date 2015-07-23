@@ -424,7 +424,6 @@ class CallClient: public sigslot::has_slots<> {
 
   std::vector<CallClient::FileProcessor*> processors_;
   cricket::TunnelSessionClient *tunnel_client_;
-};
 
 struct EnumerateFuncData 
 {
@@ -439,4 +438,5 @@ struct EnumerateFuncData
 #endif
 #pragma endregion
 
+};
 #endif  // WEBRTC_LIBJINGLE_EXAMPLES_CALL_CALLCLIENT_H_

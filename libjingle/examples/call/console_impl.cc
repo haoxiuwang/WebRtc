@@ -129,11 +129,6 @@ void Console_Impl::RunConsole() {
 	}
 }
 
-LPCSTR Console_Impl::Getstr(const std::vector<std::string>& words,size_t index, const std::string& def)
-{
-	return (GetWord(words,index,"")).c_str();
-}
-
 std::string GetWord(const std::vector<std::string>& words,size_t index, const std::string& def) 
 {
 	if (words.size() > index) {

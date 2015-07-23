@@ -12,6 +12,11 @@ extern void MyPrint(std::string str);
 
 int main(int argc, char **argv) {
 
+  DEFINE_bool(testserver, false, "Use test server.");
+  DEFINE_string(oauth, "", "OAuth2 access token.");
+  std::string oauth_token = FLAG_oauth;
+  bool test_server = FLAG_testserver;
+
   buzz::Jid jid;
   std::string username;
   std::string password;
@@ -28,7 +33,7 @@ int main(int argc, char **argv) {
 	  MyPrint("Invalid JID. JIDs should be in the form user@domain\n");
 	  return 1;
   }
-  if (pass.password().empty() && !test_server && oauth_token.empty()) {
+  if (password == "" && !test_server && oauth_token.empty()) {
 	  //Console_Imp::SetEcho(false);
 	  MyPrint("Password: ");
 	  std::cin >> password;
