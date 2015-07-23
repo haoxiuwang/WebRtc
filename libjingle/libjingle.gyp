@@ -142,6 +142,11 @@
              'examples/call/console_impl.cc',
              'examples/call/console_impl.h',
            ],
+		   'direct_dependent_settings': {
+        'defines': [
+          'POSIX',
+        ],
+      },
 		    'conditions': [
               ['OS=="linux"', {
                'link_settings': {
