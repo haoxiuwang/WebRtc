@@ -12,7 +12,7 @@
 static void DoNothing(int unused) {}
 #endif
 
-Console_Impl::Console_Impl(talk_base::Thread *thread, CallClient *client) :
+Console_Impl::Console_Impl(rtc::Thread *thread, CallClient *client) :
 Console(thread,client),isTaskStart_(false),next_(0)
 {}
 
@@ -26,7 +26,7 @@ void Console_Impl::Start() {
 		LOG(LS_ERROR) << "Cannot re-start";
 		return;
 	}
-	if (console_thread_->started()) {
+	if (console_thread_->running()) {
 		LOG(LS_WARNING) << "Already started";
 		return;
 	}
@@ -35,7 +35,7 @@ void Console_Impl::Start() {
 }
 
 void Console_Impl::Stop() {
-	if (console_thread_ && console_thread_->started()) {
+	if (console_thread_ && console_thread_->running()) {
 #ifdef WIN32
 		CloseHandle(GetStdHandle(STD_INPUT_HANDLE));
 #else
@@ -124,7 +124,7 @@ void Console_Impl::RunConsole() {
 		}
 		if(strlen(input_buffer)) 
 			client_thread_->Post(this, MSG_INPUT,
-			new talk_base::TypedMessageData<std::string>(input_buffer));
+			new rtc::TypedMessageData<std::string>(input_buffer));
 	}
 }
 
@@ -238,7 +238,7 @@ void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data)
 		this->PrintLine("对方发送Call请求");
 
 		/*client_thread_->Post(this, MSG_INPUT,
-		new talk_base::TypedMessageData<std::string>("accept"));*/
+		new rtc::TypedMessageData<std::string>("accept"));*/
 		/*message+=("you received vcall message from ");
 		message+=cstr;
 		message+=",please enter accept to get video started!";*/
@@ -315,7 +315,7 @@ void Console_Impl::ParseLine(std::string line) {
 	client_->ParseLine(command, data);
 }
 
-void Console_Impl::OnMessage(talk_base::Message *msg) {
+void Console_Impl::OnMessage(rtc::Message *msg) {
 	switch (msg->message_id) {
 	case MSG_START:
 #ifdef POSIX
@@ -332,8 +332,8 @@ void Console_Impl::OnMessage(talk_base::Message *msg) {
 		RunConsole();
 		break;
 	case MSG_INPUT:
-		talk_base::TypedMessageData<std::string>* data =
-			static_cast<talk_base::TypedMessageData<std::string>*>(msg->pdata);
+		rtc::TypedMessageData<std::string>* data =
+			static_cast<rtc::TypedMessageData<std::string>*>(msg->pdata);
 		//client_->ParseLine(data->data().GetMsg(),data->data().GetData());
 		ParseLine(data->data());
 		break;
