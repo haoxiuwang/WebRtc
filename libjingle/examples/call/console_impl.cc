@@ -7,7 +7,6 @@
 #endif  // POSIX
 #include <cassert>
 #include "webrtc/libjingle/examples/call/console_impl.h"
-#include "webrtc/libjingle/examples/call/CommonUtilities.h"
 
 #ifdef POSIX
 static void DoNothing(int unused) {}
