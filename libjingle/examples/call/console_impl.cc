@@ -195,7 +195,7 @@ void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data)
 	case R_FILE_ACCEPT:
 	case R_FILE_REJECT:
 		{
-			temp_console->WPrintLine(data->ReadString(0).c_str());
+			temp_console->PrintLine(data->ReadString(0).c_str());
 		}
 		break;
 	case R_LOGGED_OUT:
