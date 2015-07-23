@@ -7,6 +7,11 @@
 #include <termios.h>
 #include <unistd.h>
 #endif  // POSIX
+
+#if defined(LINUX)
+#include <stdarg.h>
+#endif
+
 #include <cassert>
 #include "webrtc/libjingle/examples/call/console_impl.h"
 
