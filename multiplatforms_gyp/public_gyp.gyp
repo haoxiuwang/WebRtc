@@ -25,8 +25,6 @@
              '<(webrtc_root)/libjingle/examples/call/callclient.h',
              '<(webrtc_root)/libjingle/examples/call/console.cc',
              '<(webrtc_root)/libjingle/examples/call/console.h',
-             '<(webrtc_root)/libjingle/examples/call/CommonUtilities.h',
-             '<(webrtc_root)/libjingle/examples/call/CommonUtilities.cc',
              '<(webrtc_root)/libjingle/examples/call/PublicCallback.h',
              '<(webrtc_root)/libjingle/examples/call/PublicCallback.cc',
              '<(webrtc_root)/libjingle/examples/call/friendinvitesendtask.cc',
@@ -42,6 +40,12 @@
              '<(webrtc_root)/libjingle/examples/call/presencepushtask.h',
            ],
            'conditions': [
+             ['OS=="win" or OS=="android"', {
+               'sources': [
+             '<(webrtc_root)/libjingle/examples/call/CommonUtilities.cc',
+             '<(webrtc_root)/libjingle/examples/call/CommonUtilities.h',
+           ],
+             }],
              ['OS=="linux"', {
                'link_settings': {
                  'libraries': [
