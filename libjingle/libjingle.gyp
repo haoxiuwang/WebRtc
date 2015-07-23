@@ -135,22 +135,16 @@
          { # target call
            'target_name': 'call',
            'type': 'executable',
-           'dependencies': [
+		   'dependencies': [
+             '<(talk_root)/libjingle.gyp:libjingle_p2p',
+             'libjingle_xmpphelp',
+             'jingle_session',
              '<(webrtc_root)/multiplatforms_gyp/public_gyp.gyp:public_call',],
            'sources': [
              'examples/call/talk_call_console.cc',
              'examples/call/console_impl.cc',
              'examples/call/console_impl.h',
            ],
-		    'conditions': [
-              ['OS=="linux"', {
-               'link_settings': {
-                 'libraries': [
-                   '<!@(pkg-config --libs-only-l gobject-2.0 gthread-2.0'
-                       ' gtk+-2.0)',
-                 ],
-               },
-             }],],# condithons end
          },# target call end
 
        ], # targets
