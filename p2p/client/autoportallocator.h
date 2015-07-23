@@ -16,6 +16,8 @@
 
 #include "webrtc/p2p/client/httpportallocator.h"
 #include "webrtc/base/sigslot.h"
+#include "webrtc/libjingle/xmpp/jingleinfotask.h"
+#include "webrtc/libjingle/xmpp/xmppclient.h"
 
 // This class sets the relay and stun servers using XmppClient.
 // It enables the client to traverse Proxy and NAT.
