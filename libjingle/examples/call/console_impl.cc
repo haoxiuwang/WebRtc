@@ -173,6 +173,8 @@ void Console_Impl::SplitStanza(const std::string& str, std::vector<std::string>&
 extern void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data);
 void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data) {
 
+	Console_Impl* temp_console = reinterpret_cast<Console_Impl*>(console_);
+
 	if(data == NULL)
 		return;
 
@@ -185,20 +187,20 @@ void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data)
 		break;
 	case R_DEBUG_INFO:
 		{
-			this->PrintLine(data->ReadString(0).c_str());
-			this->PrintLine(data->ReadString(1).c_str());
+			temp_console->PrintLine(data->ReadString(0).c_str());
+			temp_console->PrintLine(data->ReadString(1).c_str());
 		}
 		break;
 	case R_LOGGED_IN:
 	case R_FILE_ACCEPT:
 	case R_FILE_REJECT:
 		{
-			this->WPrintLine(data->ReadString(0).c_str());
+			temp_console->WPrintLine(data->ReadString(0).c_str());
 		}
 		break;
 	case R_LOGGED_OUT:
 		{
-			this->PrintLine("Logged Out");
+			temp_console->PrintLine("Logged Out");
 		}
 		break;
 
@@ -209,7 +211,7 @@ void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data)
 			std::string fullFilename = data->ReadString(2);
 			std::string str = sessionId + jid + fullFilename;
 
-			this->PrintLine(str.c_str());
+			temp_console->PrintLine(str.c_str());
 		}
 		break;
 	case R_FILE_REQUEST:
@@ -219,13 +221,13 @@ void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data)
 			std::string filedesc = data->ReadString(2);
 			std::string str = sessionId + jid + filedesc;
 
-			this->PrintLine(str.c_str());
+			temp_console->PrintLine(str.c_str());
 		}
 		break;
 	case R_FILE_TERMINATE:
 		{
-			this->PrintLine("File Terminate!");
-			this->PrintLine(data->ReadString(0).c_str());
+			temp_console->PrintLine("File Terminate!");
+			temp_console->PrintLine(data->ReadString(0).c_str());
 		}
 		break;
 	case R_CALL_TERMINATE:
@@ -275,9 +277,9 @@ void Console_Impl::ParseLine(std::string line) {
 	case S_FILE_ACCEPT:
 		{
 			data = new ThreadShareData(3, 0, 0);
-			data.WriteAnciString(GetWord(words,1,"").c_str(), 0);
-			data.WriteAnciString(GetWord(words,2,"").c_str(), 1);
-			data.WriteAnciString(GetWord(words,3,"").c_str(), 2);
+			data->WriteAnciString(GetWord(words,1,"").c_str(), 0);
+			data->WriteAnciString(GetWord(words,2,"").c_str(), 1);
+			data->WriteAnciString(GetWord(words,3,"").c_str(), 2);
 		}
 		break;
 	case S_CALL:
@@ -287,14 +289,14 @@ void Console_Impl::ParseLine(std::string line) {
 	case S_RM_SESSION:
 		{
 			data = new ThreadShareData(1, 0, 0);
-			data.WriteAnciString(GetWord(words,1,"").c_str(), 0);
+			data->WriteAnciString(GetWord(words,1,"").c_str(), 0);
 		}
 		break;
 	case S_INVITE_MUC:
 		{
 			data = new ThreadShareData(2, 0, 0);
-			data.WriteAnciString(GetWord(words,1,"").c_str(), 0);
-			data.WriteAnciString(GetWord(words,2,"").c_str(), 1);
+			data->WriteAnciString(GetWord(words,1,"").c_str(), 0);
+			data->WriteAnciString(GetWord(words,2,"").c_str(), 1);
 		}
 		break;
 	case S_CALL_ACCEPT:

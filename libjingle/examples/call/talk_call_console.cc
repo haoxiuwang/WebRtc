@@ -7,7 +7,6 @@
 
 #include "webrtc/libjingle/examples/call/talk_call.h"
 
-
 extern void MyPrint(std::string str);
 
 int main(int argc, char **argv) {
