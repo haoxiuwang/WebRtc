@@ -1,5 +1,11 @@
 #include "webrtc/libjingle/examples/call/talk_call.h"
 
+#if defined(TALK_CALL_CONSOLE_)
+#include "webrtc/libjingle/examples/call/console_impl.h"
+#else
+#include "webrtc/libjingle/examples/call/console_dll.h"
+#endif
+
 class DebugLog : public sigslot::has_slots<> {
 public:
 	DebugLog() :

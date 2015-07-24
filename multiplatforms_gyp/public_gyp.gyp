@@ -21,6 +21,8 @@
              '<(webrtc_root)/libjingle/libjingle.gyp:libjingle_xmpphelp',
              '<(webrtc_root)/libjingle/libjingle.gyp:jingle_session',],
            'sources': [
+             '<(webrtc_root)/libjingle/examples/call/talk_call.h',
+             '<(webrtc_root)/libjingle/examples/call/talk_call.cc',
              '<(webrtc_root)/libjingle/examples/call/callclient.cc',
              '<(webrtc_root)/libjingle/examples/call/callclient.h',
              '<(webrtc_root)/libjingle/examples/call/console.cc',

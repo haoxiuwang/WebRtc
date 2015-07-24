@@ -29,12 +29,6 @@
 #include "webrtc/libjingle/xmpp/xmppsocket.h"
 #include "webrtc/p2p/base/constants.h"
 
-#if defined(TALK_CALL_CONSOLE_)
-#include "webrtc/libjingle/examples/call/console_impl.h"
-#else
-#include "webrtc/libjingle/examples/call/console_dll.h"
-#endif
-
 //edited crossplataforms SendCommand
 extern void SendCommand(int command, ThreadShareData* data);
 

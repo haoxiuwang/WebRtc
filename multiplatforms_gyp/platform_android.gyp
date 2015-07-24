@@ -15,8 +15,6 @@
            # '<(webrtc_root)/video_engine/video_engine.gyp:video_engine_core',
           ],
           'sources': [
-             '<(webrtc_root)/libjingle/examples/call/talk_call.h',
-             '<(webrtc_root)/libjingle/examples/call/talk_call.cc',
              '<(webrtc_root)/libjingle/examples/call/console_dll.h',
              '<(webrtc_root)/libjingle/examples/call/console_dll.cc',
 
