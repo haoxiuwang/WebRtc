@@ -17,11 +17,11 @@ static void DoNothing(int unused) {}
 
 Console* console_ = NULL;
 
-Console::Console(rtc::Thread *thread, CallClient *client) :{
+Console::Console(rtc::Thread *thread, CallClient *client) {
 	  client_ = client;
 	  client_thread_ = thread;
 	  console_ = this;
-	  console_thread_ = new talk_base::Thread();
+	  console_thread_ = new rtc::Thread();
 }
 
 Console::~Console() {}
