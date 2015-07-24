@@ -33,5 +33,5 @@
 extern void SendCommand(int command, ThreadShareData* data);
 
 //edited crossplatforms Login
-extern int Login(std::string usr, std::string pw, std::string res);
+extern void Login(std::string usr, std::string pw, std::string res);
 #endif //WEBRTC_LIBJINGLE_EXAMPLES_CALL_TALK_CALL_H_

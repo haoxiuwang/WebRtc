@@ -145,8 +145,6 @@
              'examples/call/console.h',
              'examples/call/PublicCallback.h',
              'examples/call/PublicCallback.cc',
-             'examples/call/talk_call.h',
-             'examples/call/talk_call.cc',
            ],
          },# target call end
 
