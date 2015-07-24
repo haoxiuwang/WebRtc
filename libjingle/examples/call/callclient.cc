@@ -249,10 +249,10 @@ void CallClient::ParseLine(int command, ThreadShareData* data)
 	}
 	else if (command == S_ADD_SESSION) {
 		cricket::CallOptions options;
-		options.has_video = call_->has_video();
+		options.recv_video = call_->has_video();
 		options.video_bandwidth = cricket::kAutoBandwidth;
 		options.data_channel_type = data_channel_type_;
-		options.AddStream(cricket::MEDIA_TYPE_VIDEO, "", "");
+		options.AddSendStream(cricket::MEDIA_TYPE_VIDEO, "", "");
 
 		if (!InitiateAdditionalSession(data->ReadString(0), options)) {
 			console_->PrintLine("Failed to initiate additional session.");
@@ -463,7 +463,7 @@ CallClient::CallClient(buzz::XmppClient* xmpp_client,
 	xmpp_client_->SignalStateChange.connect(this, &CallClient::OnStateChange);
 	my_status_.set_caps_node(caps_node);
 	my_status_.set_version(version);
-	is_dll_test_ = dlltest;
+	is_dll_test_ = isdlltest;
 }
 
 CallClient::~CallClient() {
@@ -627,12 +627,12 @@ void CallClient::InitMedia() {
   media_client_->set_secure(sdes_policy_);
   media_client_->set_multisession_enabled(multisession_enabled_);
 
+#if defined(WIN32)
   //edited file share
   tunnel_client_ = new cricket::TunnelSessionClient(
 	  xmpp_client_->jid(),
 	  session_manager_);
 
-#if defined(WIN32)
   tunnel_client_->SignalIncomingTunnel.connect(this,&CallClient::OnIncomingTunnel);
 #endif
 }
