@@ -20,7 +20,8 @@
         '<(talk_root)/libjingle.gyp:libjingle',
         '<(talk_root)/libjingle.gyp:libjingle_p2p',
       ],
-      'sources': [963./852074107        'xmpp/jingleinfotask.cc',
+      'sources': [
+        'xmpp/jingleinfotask.cc',
         'xmpp/jingleinfotask.h',
       ],
     },  # target libjingle_xmpphelp
