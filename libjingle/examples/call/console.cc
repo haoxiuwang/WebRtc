@@ -21,7 +21,7 @@ Console::Console(rtc::Thread *thread, CallClient *client) {
 	  client_ = client;
 	  client_thread_ = thread;
 	  console_ = this;
-	  console_thread_ = new rtc::Thread();
+	  console_thread_.reset(new rtc::Thread());
 }
 
 Console::~Console() {}
