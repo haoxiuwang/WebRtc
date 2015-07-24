@@ -36,9 +36,9 @@ void ThreadShareData::WriteString(std::string strUtf8, int index) {
 }
 
 void ThreadShareData::WriteAnciString(const char* strAnci, int index){
-	LPWSTR wstr = AnsiToWchar(strAnci);
+	/*LPWSTR wstr = AnsiToWchar(strAnci);
 	WriteString(std::string(WcharToUtf8(wstr)), index);
-	::HeapFree(GetProcessHeap(),0,wstr);
+	::HeapFree(GetProcessHeap(),0,wstr);*/
 }
 
 void ThreadShareData::WriteLong(long value, int index) {
