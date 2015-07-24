@@ -59,5 +59,3 @@ std::string ThreadShareData::ReadString(int index)
 {	
 	return *(string_array_ + index);
 }
-
-#endif
