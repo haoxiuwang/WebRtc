@@ -103,6 +103,7 @@ void Console_Impl::PrintLine(const char* format, ...) {
 	va_end(ap);*/
 }
 void Console_Impl::WPrintLine(const wchar_t* format, ...) {
+	/*
 	va_list ap;
 	va_start(ap, format);
 
@@ -114,7 +115,7 @@ void Console_Impl::WPrintLine(const wchar_t* format, ...) {
 	wprintf(L"%s\n", buf);
 	fflush(stdout);
 
-	va_end(ap);
+	va_end(ap);*/
 }
 
 void Console_Impl::RunConsole() {
