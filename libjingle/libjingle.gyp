@@ -141,6 +141,8 @@
              'examples/call/talk_call_console.cc',
              'examples/call/console_impl.cc',
              'examples/call/console_impl.h',
+             'examples/call/console.cc',
+             'examples/call/console.h',
            ],
          },# target call end
 

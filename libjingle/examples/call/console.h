@@ -13,7 +13,7 @@
 
 class CallClient;
 
-public class Console : public rtc::MessageHandler,public sigslot::has_slots<>{
+class Console : public rtc::MessageHandler,public sigslot::has_slots<>{
  public:
   Console(rtc::Thread *thread, CallClient *client);
   ~Console();
