@@ -2,16 +2,16 @@
 
 #include <assert.h>
 
-//#ifdef POSIX
+//#ifdef WEBRTC_POSIX
 #include <signal.h>
 #include <termios.h>
 #include <unistd.h>
-//#endif  // POSIX
+//#endif  // WEBRTC_POSIX
 
 #include "webrtc/libjingle/examples/call/console.h"
 
 
-#ifdef POSIX
+#ifdef WEBRTC_POSIX
 static void DoNothing(int unused) {}
 #endif
 

@@ -27,16 +27,16 @@
 
 #define _CRT_SECURE_NO_DEPRECATE 1
 
-#ifdef POSIX
+#if defined(WEBRTC_POSIX)
 #include <signal.h>
 #include <termios.h>
 #include <unistd.h>
-#endif  // POSIX
+#endif  // WEBRTC_POSIX
 #include <cassert>
 #include "webrtc/libjingle/examples/call/console_dll.h"
 #include "webrtc/libjingle/examples/call/CommonUtilities.h"
 
-#ifdef POSIX
+#ifdef WEBRTC_POSIX
 static void DoNothing(int unused) {}
 #endif
 

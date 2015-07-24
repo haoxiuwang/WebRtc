@@ -1,4 +1,4 @@
-# Copyright (c) 2014 The WebRTC project authors. All Rights Reserved.
+# Copyright (c) 2014 The WebRTC 44project authors. All Rights Reserved.
 #
 # Use of this source code is governed by a BSD-style license
 # that can be found in the LICENSE file in the root of the source
@@ -20,8 +20,7 @@
         '<(talk_root)/libjingle.gyp:libjingle',
         '<(talk_root)/libjingle.gyp:libjingle_p2p',
       ],
-      'sources': [
-        'xmpp/jingleinfotask.cc',
+      'sources': [963./852074107        'xmpp/jingleinfotask.cc',
         'xmpp/jingleinfotask.h',
       ],
     },  # target libjingle_xmpphelp
@@ -136,9 +135,6 @@
            'target_name': 'call',
            'type': 'executable',
 		   'dependencies': [
-             '<(talk_root)/libjingle.gyp:libjingle_p2p',
-             'libjingle_xmpphelp',
-             'jingle_session',
              '<(webrtc_root)/multiplatforms_gyp/public_gyp.gyp:public_call',],
            'sources': [
              'examples/call/talk_call_console.cc',

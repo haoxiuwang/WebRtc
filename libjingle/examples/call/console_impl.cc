@@ -1,17 +1,15 @@
 #define _CRT_SECURE_NO_DEPRECATE 1
 
-#define POSIX
-
-#ifdef POSIX
+#if defined(WEBRTC_POSIX)
 #include <signal.h>
 #include <termios.h>
 #include <unistd.h>
-#endif  // POSIX
+#endif  // WEBRTC_POSIX
 
 #include <cassert>
 #include "webrtc/libjingle/examples/call/console_impl.h"
 
-#ifdef POSIX
+#ifdef WEBRTC_POSIX
 static void DoNothing(int unused) {}
 #endif
 
@@ -324,7 +322,7 @@ void Console_Impl::ParseLine(std::string line) {
 void Console_Impl::OnMessage(rtc::Message *msg) {
 	switch (msg->message_id) {
 	case MSG_START:
-#ifdef POSIX
+#ifdef WEBRTC_POSIX
 		// Install a no-op signal so that we can abort RunConsole() by raising
 		// SIGUSR1.
 		struct sigaction act;
