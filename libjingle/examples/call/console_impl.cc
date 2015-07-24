@@ -88,6 +88,7 @@ void Console_Impl::SetEcho(bool on) {
 }
 
 void Console_Impl::PrintLine(const char* format, ...) {
+	/*
 	va_list ap;
 	va_start(ap, format);
 
@@ -99,7 +100,7 @@ void Console_Impl::PrintLine(const char* format, ...) {
 	printf("%s\n", buf);
 	fflush(stdout);
 
-	va_end(ap);
+	va_end(ap);*/
 }
 void Console_Impl::WPrintLine(const wchar_t* format, ...) {
 	va_list ap;
