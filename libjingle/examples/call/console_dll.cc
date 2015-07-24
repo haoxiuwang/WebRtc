@@ -34,7 +34,6 @@
 #endif  // WEBRTC_POSIX
 #include <cassert>
 #include "webrtc/libjingle/examples/call/console_dll.h"
-#include "webrtc/libjingle/examples/call/CommonUtilities.h"
 
 #ifdef WEBRTC_POSIX
 static void DoNothing(int unused) {}
