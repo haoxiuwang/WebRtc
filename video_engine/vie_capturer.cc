@@ -182,7 +182,7 @@ int32_t ViECapturer::Init(const char* device_unique_idUTF8,
         ViEModuleId(engine_id_, capture_id_), external_capture_module_);
   } else {
     capture_module_ = VideoCaptureFactory::Create(
-        ViEModuleId(engine_id_, capture_id_), device_unique_idUTF8);
+        ViEModuleId(engine_id_, capture_id_), device_unique_idUTF8, false);
   }
   if (!capture_module_) {
     return -1;
