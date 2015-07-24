@@ -142,6 +142,9 @@
              'examples/call/console_impl.cc',
              'examples/call/console_impl.h',
 
+             'examples/call/console_dll.cc',
+             'examples/call/console_dll.h',
+
              'examples/call/talk_call.h',
              'examples/call/talk_call.cc',
              'examples/call/console.cc',
