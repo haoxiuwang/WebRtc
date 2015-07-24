@@ -56,9 +56,6 @@
 #define STANDARD_RENDERING kRenderExternal
 #endif  // STANDARD_RENDERING
 
-//edited
-#include "webrtc/libjingle/examples/call/talk_call_android.h"
-
 namespace webrtc {
 
 VideoRender*
