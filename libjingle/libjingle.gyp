@@ -156,8 +156,6 @@
              'examples/call/console.h',
              'examples/call/PublicCallback.h',
              'examples/call/PublicCallback.cc',
-             'examples/call/PublicCallback.h',
-             'examples/call/PublicCallback.cc',
              'examples/call/friendinvitesendtask.cc',
              'examples/call/friendinvitesendtask.h',
              'examples/call/muc.h',
