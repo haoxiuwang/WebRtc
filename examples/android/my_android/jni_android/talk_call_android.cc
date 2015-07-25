@@ -10,9 +10,9 @@
 
 #include <assert.h>
 
-#include "webrtc/examples/android/my_android/jni_android/jni_helpers.h"
+#include "webrtc/libjingle/examples/call/talk_call_android.h"
 
-#include "webrtc/examples/android/media_demo/jni_wh/jni_helpers.h"
+#include "webrtc/examples/android/my_android/jni_android/jni_helpers.h"
 #include "webrtc/modules/video_capture/video_capture_internal.h"
 #include "webrtc/modules/video_render/video_render_internal.h"
 #include "webrtc/voice_engine/include/voe_base.h"
