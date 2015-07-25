@@ -8,7 +8,7 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
-#include "webrtc/examples/android/media_demo/jni_wh/jni_helpers.h"
+#include "webrtc/examples/android/my_android/jni_android/jni_helpers.h"
 
 #include <limits>
 
