@@ -174,7 +174,6 @@ void Console_Impl::SplitStanza(const std::string& str, std::vector<std::string>&
 	}	
 }
 
-extern void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data);
 void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data) {
 
 	Console_Impl* temp_console = reinterpret_cast<Console_Impl*>(console_);
