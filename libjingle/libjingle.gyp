@@ -135,8 +135,11 @@
          { # target call
            'target_name': 'call',
            'type': 'executable',
-		   'dependencies': [
-             '<(webrtc_root)/multiplatforms_gyp/public_gyp.gyp:public_call',],
+           'dependencies': [
+             '<(talk_root)/libjingle.gyp:libjingle_p2p',
+             'libjingle_xmpphelp',
+             'jingle_session',],
+            ],
            'sources': [
              'examples/call/talk_call_console.cc',
              'examples/call/console_impl.cc',
@@ -147,16 +150,12 @@
 
              'examples/call/talk_call.h',
              'examples/call/talk_call.cc',
+             'examples/call/callclient.cc',
+             'examples/call/callclient.h',
              'examples/call/console.cc',
              'examples/call/console.h',
              'examples/call/PublicCallback.h',
              'examples/call/PublicCallback.cc',
-             'examples/call/callclient.cc',
-             'examples/call/callclient.h',
-             'examples/call/callclient.cc',
-             'examples/call/callclient.h',
-             'examples/call/console.cc',
-             'examples/call/console.h',
              'examples/call/PublicCallback.h',
              'examples/call/PublicCallback.cc',
              'examples/call/friendinvitesendtask.cc',
@@ -169,6 +168,31 @@
              'examples/call/presencepushtask.cc',
              'examples/call/presencepushtask.h',
            ],
+           'conditions': [
+             ['OS=="win" or OS=="android"', {
+               'sources': [
+             'examples/call/CommonUtilities.cc',
+             'examples/call/CommonUtilities.h',
+           ],
+             }],
+             ['OS=="linux"', {
+               'link_settings': {
+                 'libraries': [
+                   '<!@(pkg-config --libs-only-l gobject-2.0 gthread-2.0'
+                       ' gtk+-2.0)',
+                 ],
+               },
+             }],
+             ['OS=="win"', {
+               'msvs_settings': {
+                 'VCLinkerTool': {
+                   'AdditionalDependencies': [
+                     'strmiids.lib',
+                   ],
+                 },
+               },
+             }],
+           ],  # conditions
          },# target call end
 
        ], # targets
