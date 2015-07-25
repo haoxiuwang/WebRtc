@@ -2,11 +2,14 @@
 #ifndef PUBLIC_CALL_BACK_FUNCTION_H
 #define PUBLIC_CALL_BACK_FUNCTION_H
 
+#if defined(ANDROID)
 #include <jni.h>
-
-#include <string>
 //WH
 #include <android/log.h>
+#endif
+
+#include <string>
+
 #include <stdio.h>
 
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__)
@@ -392,7 +395,7 @@ class ManagedDataWriter
 //SurfaceView
 extern void* sv_local;
 extern void* sv_remote;
-
+#if defined(ANDROID)
 //WorkThread
 extern rtc::Thread* my_workerthread;
 extern rtc::Thread* my_clientthread;
@@ -402,7 +405,7 @@ extern JNIEnv* GetThreadEnv(bool thread);
 
 //JAVA_VM
 extern JavaVM* g_vm;
-
+#endif
 //WH¡ª¡ªJava CallBack½Ó¿Úº¯Êý
 extern void NewDayCallback(Enum_RecievedMessage command, ThreadShareData* data);
 extern void callBack_Test_Method(std::string s);

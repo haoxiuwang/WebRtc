@@ -825,12 +825,12 @@ void CallClient::OnStateChange(buzz::XmppEngine::State state) {
 
 void CallClient::InitMedia() {
   //WH
-  //worker_thread_ = new rtc::Thread();
-  worker_thread_ = my_workerthread;
+  worker_thread_ = new rtc::Thread();
+  //worker_thread_ = my_workerthread;
   // The worker thread must be started here since initialization of
   // the ChannelManager will generate messages that need to be
   // dispatched by it.
-  //worker_thread_->Start();
+  worker_thread_->Start();
 
 
   // TODO: It looks like we are leaking many objects. E.g.
