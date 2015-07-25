@@ -438,7 +438,7 @@ JOWW(void, NativeWebRtcTransport_sendXmpp)(JNIEnv* jni, jobject obj, jstring xmp
   ThreadShareData* shareData = new ThreadShareData(1, 0, 0);
   shareData->WriteString(xmppdata, 0);
 
-  SendCommand((int)S_XMPPP_ROTOCOL, shareData);
+  SendCommand((int)S_XMPP_ROTOCOL, shareData);
 
 }
 
@@ -492,7 +492,7 @@ JOWW(void, NativeWebRtcTransport_sendFileTermintate)(JNIEnv* jni, jobject obj, j
 	ThreadShareData* shareData = new ThreadShareData(1, 0, 0);
 	shareData->WriteString(sid, 0);
 
-	SendCommand((int)S_FILE_TERMINTATE, shareData);
+	SendCommand((int)S_FILE_TERMINATE, shareData);
 
 }
 
