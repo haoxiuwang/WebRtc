@@ -6,7 +6,6 @@
 
 #include <jni.h>
 #include <android/log.h>
-#include "webrtc/libjingle/examples/call/CommonUtilities.h"
 
 //以下定义在 webrtc/examples/android/my_android/jni_android/talk_call_android.cc
 

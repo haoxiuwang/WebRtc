@@ -167,7 +167,7 @@
              'examples/call/presencepushtask.h',
            ],
            'conditions': [
-             ['OS=="win" or OS=="android"', {
+             ['OS=="win"', {
                'sources': [
              'examples/call/CommonUtilities.cc',
              'examples/call/CommonUtilities.h',
