@@ -138,7 +138,7 @@
            'dependencies': [
              '<(talk_root)/libjingle.gyp:libjingle_p2p',
              'libjingle_xmpphelp',
-             'jingle_session',],
+             'jingle_session',
             ],
            'sources': [
              'examples/call/talk_call_console.cc',
