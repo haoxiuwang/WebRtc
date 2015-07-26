@@ -7,8 +7,10 @@ rtc::Thread* my_clientthread = NULL;
 void* sv_local = NULL;
 void* sv_remote = NULL;
 
+#if defined(LINUX)
 void NewDayCallback(Enum_RecievedMessage command, ThreadShareData* data){}
 void callBack_Test_Method(std::string s){}
+#endif
 
 ThreadShareData::ThreadShareData(int string_count, int int_count, int long_count) {
 	if(string_count > 0)
