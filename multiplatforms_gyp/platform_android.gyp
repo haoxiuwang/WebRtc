@@ -120,7 +120,7 @@
                 'cd - > /dev/null && '
                 'cp <(android_my_libjingle_test_root)/bin/MylibjingleTest-debug.apk <(_outputs)'
               ],
-            }, #cat <(ant_log) ; exit 1;
+            },
           ],
         },
       ],
