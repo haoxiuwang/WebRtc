@@ -116,7 +116,7 @@
                 'cd <(android_my_libjingle_test_root) && '
                 '{ ANDROID_SDK_ROOT=<(android_sdk_root) '
                 'ant debug > <(ant_log) 2>&1 || '
-                '  {  } } && '
+                '  { cat <(ant_log) ; exit 1; } } && '
                 'cd - > /dev/null && '
                 'cp <(android_my_libjingle_test_root)/bin/MylibjingleTest-debug.apk <(_outputs)'
               ],

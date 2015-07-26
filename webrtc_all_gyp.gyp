@@ -19,7 +19,7 @@
         ['OS=="android"', {
           'dependencies': [
             'webrtc_examples.gyp:*',
-            'multiplatforms_gyp/platform_android.gyp:*',
+            'platform_android.gyp:*',
           ],
         }],
       ],
