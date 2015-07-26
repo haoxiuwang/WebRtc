@@ -8,21 +8,6 @@
 
 {
   'targets': [
-    {
-      'target_name': 'webrtc_all_gyp',
-      'type': 'none',
-      'dependencies': [
-        'webrtc.gyp:*',
-        'libjingle/libjingle.gyp:*',
-      ],
-      'conditions': [
-        ['OS=="android"', {
-          'dependencies': [
-            'webrtc_examples.gyp:*',
-            'platform_android.gyp:*',
-          ],
-        }],
-      ],
-    },
+    
   ],
 }

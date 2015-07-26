@@ -166,6 +166,9 @@
              'examples/call/presencepushtask.cc',
              'examples/call/presencepushtask.h',
            ],
+	   'defines': [
+                'TALK_CALL_CONSOLE',
+              ],
            'conditions': [
              ['OS=="win"', {
                'sources': [

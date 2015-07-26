@@ -761,9 +761,9 @@ cricket::VideoRenderer* CallClient::CreatVideoRenderer(bool isLocal, int width, 
 			new cricket::GdiVideoRenderer(width, height);
 		renderer_->SetSize(width,height, 0);
 #elif defined(ANDROID)
-		callBack_Test_Method("if(sv_local || sv_remote)");
-		if(sv_local || sv_remote)
-			renderer_ = new cricket::AndroidVideoRenderer(0, 0, isLocal ? sv_local : sv_remote, webrtc::VideoRenderType::kRenderAndroid);
+		callBack_Test_Method("if(sv_local)");
+		if(sv_local)
+			renderer_ = new cricket::AndroidVideoRenderer(0, 0, sv_local, webrtc::VideoRenderType::kRenderAndroid);
 #elif defined(LINUX) && defined(HAVE_GTK)
 		renderer_ = new cricket::GtkVideoRenderer(width, height);
 #elif defined(WEBRTC_APPRTC_RENDERER)
@@ -1808,9 +1808,16 @@ void CallClient::AddStaticRenderedView(
     uint32 ssrc, int width, int height, int framerate,
     int x_offset, int y_offset) {
 
+#if defined(ANDROID)
+callBack_Test_Method("Android——CallClient::AddStaticRenderedView");
+StaticRenderedView rendered_view(
+      cricket::StaticVideoView(
+          cricket::StreamSelector(ssrc), width, height, framerate), new cricket::AndroidVideoRenderer(x_offset, y_offset, sv_remote, webrtc::VideoRenderType::kRenderAndroid));
+#else
   StaticRenderedView rendered_view(
       cricket::StaticVideoView(
           cricket::StreamSelector(ssrc), width, height, framerate), CreatVideoRenderer(false, width, height));
+#endif
 
   rendered_view.renderer->SetSize(width, height, 0);
   static_rendered_views_.insert(std::make_pair(std::make_pair(session, ssrc),

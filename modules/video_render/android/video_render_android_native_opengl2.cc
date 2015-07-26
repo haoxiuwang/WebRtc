@@ -41,6 +41,9 @@ AndroidNativeOpenGl2Renderer::AndroidNativeOpenGl2Renderer(
 
 bool AndroidNativeOpenGl2Renderer::UseOpenGL2(void* window) {
 
+  if(window == NULL)
+	return false;
+
   if (!g_jvm) {
     WEBRTC_TRACE(kTraceError, kTraceVideoRenderer, -1,
                  "RendererAndroid():UseOpenGL No JVM set.");

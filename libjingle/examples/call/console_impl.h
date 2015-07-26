@@ -32,6 +32,7 @@ private:
 	bool isTaskStart_;
 	Enum_SendMessage current_msg_;
 	int next_;
+  	rtc::scoped_ptr<rtc::Thread> console_thread_;
 
 };
 

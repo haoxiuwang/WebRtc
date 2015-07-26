@@ -1,8 +1,9 @@
 #include "webrtc/libjingle/examples/call/PublicCallback.h"
 
 void MyPrint(std::string str) {
-#if defined(TALK_CALL_CONSOLE_) || defined(WEBRTC_IOS)
-	printf("%s", chars);
+#if defined(TALK_CALL_CONSOLE) || defined(WEBRTC_IOS)
+	str += "\n";
+	printf("%s", str.c_str());
 	fflush(stdout);
 #endif
 }

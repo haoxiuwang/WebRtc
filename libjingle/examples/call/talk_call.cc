@@ -1,10 +1,10 @@
 #include "webrtc/libjingle/examples/call/talk_call.h"
 
-//#if defined(TALK_CALL_CONSOLE_)
+#if defined(TALK_CALL_CONSOLE)
 #include "webrtc/libjingle/examples/call/console_impl.h"
-//#else
+#else
 #include "webrtc/libjingle/examples/call/console_dll.h"
-//#endif
+#endif
 
 class DebugLog : public sigslot::has_slots<> {
 public:
@@ -165,10 +165,12 @@ bool GetSecurePolicy(const std::string& in, cricket::SecurePolicy* out) {
 }
 
 //edited crossplataforms SendCommand
+#ifndef TALK_CALL_CONSOLE
 void SendCommand(int command, ThreadShareData* shareData) {
 	Console_Dll* temp_console = reinterpret_cast<Console_Dll*>(console_);
 	temp_console->SendCommand(command, shareData);
 }
+#endif
 
 //edited crossplataforms Login
 void Login(std::string name, std::string pword, std::string res) {
@@ -207,7 +209,7 @@ void Login(std::string name, std::string pword, std::string res) {
   DEFINE_string(videooutput, NULL, "RTP dump file for video output.");
   DEFINE_bool(render, true, "Renders the video.");
   DEFINE_string(datachannel, "", "Enable a data channel, and choose the type: rtp or sctp.");
-  DEFINE_bool(d, true, "Turn on debugging.");
+  DEFINE_bool(d, false, "Turn on debugging.");
   DEFINE_string(log, "", "Turn on debugging to a file.");
   DEFINE_bool(debugsrtp, false, "Enable debugging for srtp.");
   DEFINE_bool(help, false, "Prints this message");
@@ -410,7 +412,7 @@ void Login(std::string name, std::string pword, std::string res) {
     client->SetMediaEngine(engine);
   }*/
 
-#if defined(TALK_CALL_CONSOLE_)
+#if defined(TALK_CALL_CONSOLE)
   Console *console = new Console_Impl(main_thread, client);
 #else
   Console *console = new Console_Dll(main_thread, client);

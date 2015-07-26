@@ -39,6 +39,21 @@
     ],
   },
   'targets': [
+    { # webrtc_all_gyp
+      'target_name': 'webrtc_all_gyp',
+      'type': 'none',
+      'dependencies': [
+        'libjingle/libjingle.gyp:*',
+      ],
+      'conditions': [
+        ['OS=="android"', {
+          'dependencies': [
+            'platform_android.gyp:*',
+          ],
+        }],
+      ],
+    }, # webrtc_all_gyp_end
+
     {
       'target_name': 'webrtc_all',
       'type': 'none',

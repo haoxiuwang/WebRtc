@@ -1,5 +1,3 @@
-#define TALK_CALL_CONSOLE_
-
 #if defined(WEBRTC_MAC) && !defined(WEBRTC_IOS)
 //mac console renderer
 #define WEBRTC_MACCONSOLE_RENDERER
@@ -7,14 +5,13 @@
 
 #include "webrtc/libjingle/examples/call/talk_call.h"
 
-extern void MyPrint(std::string str);
-
 int main(int argc, char **argv) {
 
-  DEFINE_bool(testserver, false, "Use test server.");
-  DEFINE_string(oauth, "", "OAuth2 access token.");
-  std::string oauth_token = FLAG_oauth;
-  bool test_server = FLAG_testserver;
+  DEFINE_bool(consoletestserver, false, "Use test server.");
+  DEFINE_string(consoleoauth, "", "OAuth2 access token.");
+
+  bool test_server = FLAG_consoletestserver;
+  std::string oauth_token = FLAG_consoleoauth;
 
   buzz::Jid jid;
   std::string username;

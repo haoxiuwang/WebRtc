@@ -22,6 +22,7 @@ Console_Impl::~Console_Impl() {
 }
 
 void Console_Impl::Start() {
+MyPrint("Console_Impl::Start");
 	if (stopped_) {
 		// stdin was closed in Stop(), so we can't restart.
 		LOG(LS_ERROR) << "Cannot re-start";
@@ -31,6 +32,8 @@ void Console_Impl::Start() {
 		LOG(LS_WARNING) << "Already started";
 		return;
 	}
+
+	console_thread_.reset(new rtc::Thread());
 	console_thread_->Start();
 	console_thread_->Post(this, MSG_START);
 }
@@ -265,6 +268,7 @@ void MultiPlatformsCallback(Enum_RecievedMessage command, ThreadShareData* data)
 }
 
 void Console_Impl::ParseLine(std::string line) {
+
 	std::vector<std::string> words;
 	SplitStanza(line,words,":babel:");
 
@@ -272,7 +276,7 @@ void Console_Impl::ParseLine(std::string line) {
 	int command = std::atoi(com.c_str());
 
 	Enum_SendMessage message = (Enum_SendMessage)command;
-    ThreadShareData* data = NULL;
+    	ThreadShareData* data = NULL;
 
 	switch(message)
 	{
@@ -280,9 +284,12 @@ void Console_Impl::ParseLine(std::string line) {
 	case S_FILE_ACCEPT:
 		{
 			data = new ThreadShareData(3, 0, 0);
-			data->WriteAnciString(GetWord(words,1,"").c_str(), 0);
+			/*data->WriteAnciString(GetWord(words,1,"").c_str(), 0);
 			data->WriteAnciString(GetWord(words,2,"").c_str(), 1);
-			data->WriteAnciString(GetWord(words,3,"").c_str(), 2);
+			data->WriteAnciString(GetWord(words,3,"").c_str(), 2);*/
+			data->WriteString(GetWord(words,1,""), 0);
+			data->WriteString(GetWord(words,2,""), 1);
+			data->WriteString(GetWord(words,3,""), 2);
 		}
 		break;
 	case S_CALL:
@@ -291,15 +298,21 @@ void Console_Impl::ParseLine(std::string line) {
 	case S_ADD_SESSION:
 	case S_RM_SESSION:
 		{
+MyPrint("case S_CALL:");
 			data = new ThreadShareData(1, 0, 0);
-			data->WriteAnciString(GetWord(words,1,"").c_str(), 0);
+			//data->WriteAnciString(GetWord(words,1,"").c_str(), 0);
+			std::string s = GetWord(words,1,"");
+MyPrint(s);
+			data->WriteString(s, 0);
 		}
 		break;
 	case S_INVITE_MUC:
 		{
 			data = new ThreadShareData(2, 0, 0);
-			data->WriteAnciString(GetWord(words,1,"").c_str(), 0);
-			data->WriteAnciString(GetWord(words,2,"").c_str(), 1);
+			//data->WriteAnciString(GetWord(words,1,"").c_str(), 0);
+			//data->WriteAnciString(GetWord(words,2,"").c_str(), 1);
+			data->WriteString(GetWord(words,1,""), 0);
+			data->WriteString(GetWord(words,2,""), 1);
 		}
 		break;
 	case S_CALL_ACCEPT:

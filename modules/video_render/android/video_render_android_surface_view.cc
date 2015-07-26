@@ -102,7 +102,9 @@ int32_t AndroidSurfaceViewRenderer::Init() {
     return -1;
   }
 
-//edited 此判断暂废 _ptrWindow == null
+callBack_Test_Method("Android——CallClient::AddStaticRenderedView");
+
+//edited _ptrWindow == null
 /*
   if(!_ptrWindow) {
     WEBRTC_TRACE(kTraceWarning,

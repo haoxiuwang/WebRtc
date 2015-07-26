@@ -29,7 +29,6 @@ class Console : public rtc::MessageHandler,public sigslot::has_slots<>{
 
   //edited
   rtc::Thread* GetClientThread();
-  rtc::scoped_ptr<rtc::Thread> console_thread_;
 
  protected:
   enum {
