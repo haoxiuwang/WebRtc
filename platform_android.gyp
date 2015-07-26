@@ -1,5 +1,5 @@
 {
-  'includes': ['../build/common.gypi'],
+  'includes': ['build/common.gypi'],
    'variables': {
     'talk_root%': '<(webrtc_root)/../talk',
   },
@@ -90,7 +90,7 @@
               'action_name': 'build_mylibjingletest_apk',
               'variables': {
                 'android_my_libjingle_test_root': '<(webrtc_root)/examples/android/my_android',
-                'ant_log': '../../../../<(INTERMEDIATE_DIR)/ant.log', # ../../../.. to compensate for the cd below.
+                'ant_log': '../../../<(INTERMEDIATE_DIR)/ant.log', # ../../.. to compensate for the cd below.
               },
               'inputs' : [
                 '<(PRODUCT_DIR)/lib.java/audio_device_module_java.jar',
