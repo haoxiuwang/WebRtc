@@ -683,7 +683,8 @@ bool CallClient::StartVideoCapture(bool isScreencast)
 			if(local_renderer_ == NULL)
 				local_renderer_ = CreatVideoRenderer(true, local_width_, local_height_);
 
-			call_->SetLocalRenderer(local_renderer_);
+			if(local_renderer_ != NULL)
+				call_->SetLocalRenderer(local_renderer_);
 
 			cricket::VideoContentDescription* video = call_->CreateVideoStreamUpdate(stream);
 			call_->SendVideoStreamUpdate(session, video);
@@ -760,6 +761,7 @@ cricket::VideoRenderer* CallClient::CreatVideoRenderer(bool isLocal, int width, 
 			new cricket::GdiVideoRenderer(width, height);
 		renderer_->SetSize(width,height, 0);
 #elif defined(ANDROID)
+		callBack_Test_Method("if(sv_local || sv_remote)");
 		if(sv_local || sv_remote)
 			renderer_ = new cricket::AndroidVideoRenderer(0, 0, isLocal ? sv_local : sv_remote, webrtc::VideoRenderType::kRenderAndroid);
 #elif defined(LINUX) && defined(HAVE_GTK)
