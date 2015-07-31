@@ -43,7 +43,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         nativeWebRtc = new NativeWebRtcTransport(this);
         MyWorkerThread();
-	CreateLRSurfaceView();
+        CreateLRSurfaceView();
 
         ProcessCallBack();
 
@@ -51,6 +51,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button b_sendvcall = (Button)findViewById(R.id.SendVCall);
         Button b_startcamera = (Button)findViewById(R.id.StartCamera);
         Button b_stopcamera = (Button)findViewById(R.id.StopCamera);
+        Button b_switchcamera = (Button)findViewById(R.id.SwitchCamera);
         Button b_accept = (Button)findViewById(R.id.Accept);
         Button b_reject = (Button)findViewById(R.id.Reject);
         Button b_mute = (Button)findViewById(R.id.Mute);
@@ -64,6 +65,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         b_sendvcall.setOnClickListener(this);
         b_startcamera.setOnClickListener(this);
         b_stopcamera.setOnClickListener(this);
+        b_switchcamera.setOnClickListener(this);
         b_accept.setOnClickListener(this);
         b_reject.setOnClickListener(this);
         b_mute.setOnClickListener(this);
@@ -204,21 +206,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
     private void CreateLRSurfaceView(){
-	svLocal = new SurfaceView(MainActivity.this);
-        //svLocal = ViERenderer.CreateRenderer(MainActivity.this, true);
+        svLocal = ViERenderer.CreateRenderer(MainActivity.this, false);
 
-	//svLocal.setVisibility(View.GONE);
+        //svLocal.setVisibility(View.GONE);
         VideoCaptureAndroid.setLocalPreview(svLocal.getHolder());
         llLocalSurface.addView(svLocal);
 
-	svRemote = new SurfaceView(MainActivity.this);
-        //svRemote = ViERenderer.CreateRenderer(MainActivity.this, true);
-        
+        svRemote = ViERenderer.CreateRenderer(MainActivity.this, false);
+
         svRemote.setVisibility(View.GONE);
         ViESurfaceRenderer.setRemotePreview(svRemote);
         llRemoteSurface.addView(svRemote);
 
-	//nativeWebRtc.CreateSurfaceView(svLocal, svRemote);
+        //nativeWebRtc.CreateSurfaceView(svLocal, svRemote);
     }
 
     @Override
@@ -243,6 +243,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.StopCamera:
                 nativeWebRtc.sendCameraStop();
+                break;
+            case R.id.SwitchCamera:
+                nativeWebRtc.sendSwitchCamera();
                 break;
             case R.id.Accept:
                 nativeWebRtc.sendCallAccept(100, 100, 100, 100);

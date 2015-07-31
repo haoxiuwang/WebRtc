@@ -39,6 +39,10 @@
 #include "webrtc/libjingle/session/media/mediasessionclient.h"
 #include "webrtc/libjingle/session/parsing.h"
 
+#if defined(ANDROID)
+#include "webrtc/libjingle/examples/call/talk_call_android.h"
+#endif
+
 namespace cricket {
 
 const uint32 MSG_CHECKAUTODESTROY = 1;
@@ -164,6 +168,7 @@ void Call::TerminateSession(Session* session) {
   MediaSessionMap::iterator it = media_session_map_.find(session->id());
   if (it != media_session_map_.end()) {
     // Assume polite terminations.
+    //edited
     it->second.session->Terminate();
   }
 }
@@ -480,7 +485,7 @@ void Call::PressDTMF(int event) {
   }
 }
 
-cricket::VideoFormat ScreencastFormatFromFps(int fps) {
+cricket::VideoFormat Call::ScreencastFormatFromFps(int fps) {
   // The capturer pretty much ignore this, but just in case we give it
   // a resolution big enough to cover any expected desktop.  In any
   // case, it can't be 0x0, or the CaptureManager will fail to use it.
@@ -1182,13 +1187,11 @@ bool Call::StartVideoCapture(Session* session, uint32 ssrc ,bool isScreencast){
 			return false;
 		}
 
-		if(capturer_){
-			delete capturer_;
-			capturer_ = NULL;
-		}
 
 		capturer_ = session_client_->channel_manager()->CreateVideoCapturer(isScreencast);
-		if (capturer_ == NULL) {
+		
+
+		if (!capturer_) {
 			LOG(LS_WARNING) << "Could not create screencast capturer.";
 			return false;
 		}
@@ -1198,21 +1201,40 @@ bool Call::StartVideoCapture(Session* session, uint32 ssrc ,bool isScreencast){
 		if (!session_client_->channel_manager()->StartVideoCapture(
 			capturer_, format)) {
 				LOG(LS_WARNING) << "Could not start video capture.";
-				return false;
+
+			delete capturer_; // wf
+			capturer_ = NULL;
+			return false;
 		}
+//wf
+
 
 		if (!video_channel->SetCapturer(ssrc, capturer_)) {
 			LOG(LS_WARNING) << "Could not set capturer.";
 			session_client_->channel_manager()->StopVideoCapture(
-				capturer_,format);			
-			return false;
-		}		
+				capturer_,format);	
+			delete capturer_;
+			capturer_ = NULL;	
 
+			return false;
+		}
+
+                
+                cricket::StreamParams stream;
+		stream.ssrcs.push_back(ssrc);
+		stream.id = isScreencast ? "screencast" : "video";
+                stream.type = "start";
+		    
+		cricket::VideoContentDescription* video = CreateVideoStreamUpdate(stream);
+
+                //// TODO(pthatcher): Wait until view request before sending video.
+		video_channel->SetLocalContent(video, CA_UPDATE, NULL);
+		SendVideoStreamUpdate(session, video);
 		return true;
 	}
 
 
-	bool Call::StopVideoCapture(bool removeRender){
+	bool Call::StopVideoCapture(Session* session, uint32 ssrc ,bool isScreencast){
 		cricket::VideoFormat format = ScreencastFormatFromFps(-1);
 
 		if(local_renderer_ && !session_client_->channel_manager()->RemoveVideoRenderer(capturer_, local_renderer_))
@@ -1221,19 +1243,36 @@ bool Call::StartVideoCapture(Session* session, uint32 ssrc ,bool isScreencast){
 			return false;
 		}
 
+                MediaSessionMap::iterator it = media_session_map_.find(session->id());
+		if (it == media_session_map_.end()) {
+			return false;
+		}
+
+		VideoChannel *video_channel = GetVideoChannel(session);
+		if (!video_channel) {
+			LOG(LS_WARNING) << "Cannot remove screencast"
+				<< " because there is no video channel.";
+			return false;
+		}
+
+		video_channel->SetCapturer(ssrc, NULL);
 		if(!session_client_->channel_manager()->StopVideoCapture(capturer_,format))
 		{
 			LOG(LS_WARNING) << "Cannot stop current capture";
 			return false;
 		}
-	    
-		/*if(removeRender){
-		delete local_renderer_;
-		local_renderer_ = NULL;
-		}*/
 
 		delete capturer_;
 		capturer_ = NULL;
+
+
+		cricket::StreamParams stream;
+		stream.id = isScreencast ? "screencast" : "video";
+		stream.type = "stop";
+		cricket::VideoContentDescription* video = CreateVideoStreamUpdate(stream);
+		video_channel->SetLocalContent(video, CA_UPDATE, NULL);
+		SendVideoStreamUpdate(session, video);
+
 		return true;
 	}
 

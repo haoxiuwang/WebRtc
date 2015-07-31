@@ -78,7 +78,7 @@
 	}, #end test-jni
 
     {
-          'target_name': 'MylibjingleTest',
+          'target_name': 'MyljTest',
           'type': 'none',
           'dependencies': [
             #'libtest-jni',
@@ -87,7 +87,7 @@
           ],
           'actions': [
             {
-              'action_name': 'build_mylibjingletest_apk',
+              'action_name': 'build_myljtest_apk',
               'variables': {
                 'android_my_libjingle_test_root': '<(webrtc_root)/examples/android/my_android',
                 'ant_log': '../../../<(INTERMEDIATE_DIR)/ant.log', # ../../.. to compensate for the cd below.
@@ -103,7 +103,7 @@
                 '<(android_my_libjingle_test_root)/build.xml',
                 '<(android_my_libjingle_test_root)/project.properties',
               ],
-              'outputs': ['<(PRODUCT_DIR)/MylibjingleTest-debug.apk'],
+              'outputs': ['<(PRODUCT_DIR)/MyljTest-debug.apk'],
               'action': [
                 'bash', '-ec',
                 'rm -fr <(_outputs) <(android_my_libjingle_test_root)/{bin,libs,gen,obj} && '
@@ -118,7 +118,7 @@
                 'ant debug > <(ant_log) 2>&1 || '
                 '  { cat <(ant_log) ; exit 1; } } && '
                 'cd - > /dev/null && '
-                'cp <(android_my_libjingle_test_root)/bin/MylibjingleTest-debug.apk <(_outputs)'
+                'cp <(android_my_libjingle_test_root)/bin/MyljTest-debug.apk <(_outputs)'
               ],
             },
           ],

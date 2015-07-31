@@ -191,6 +191,8 @@ class CallClient: public sigslot::has_slots<> {
   cricket::VideoRenderer* CreatVideoRenderer(bool isLocal, int width, int height);
   bool StopVideoCapture(bool removeRenderer); 
   bool StartVideoCapture(bool isScreencast); 
+  bool Preview_StartVideoCapture();
+  bool Preview_StopVideoCapture();
 
   void AddStream(uint32 audio_src_id, uint32 video_src_id);
   void RemoveStream(uint32 audio_src_id, uint32 video_src_id);
@@ -327,6 +329,8 @@ class CallClient: public sigslot::has_slots<> {
   //void* sv_remote = NULL;
 
   //edited
+  cricket::VideoCapturer* preview_capturer_ = NULL;
+
   int local_width_; 
   int local_height_;
 

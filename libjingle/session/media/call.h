@@ -99,10 +99,10 @@ class Call : public rtc::MessageHandler, public sigslot::has_slots<> {
  
   // edited
   
-
+ VideoFormat ScreencastFormatFromFps(int fps);
   bool SetLocalRenderer(VideoRenderer* renderer);
   bool StartVideoCapture(Session* session, uint32 ssrc,bool isScreenCast);
-  bool StopVideoCapture(bool removeRender);
+  bool StopVideoCapture(Session* session, uint32 ssrc ,bool isScreencast);
   uint32 GetSsrc(Session * session, bool local);
 
   cricket::VideoCapturer* getcapturer(){return capturer_;}

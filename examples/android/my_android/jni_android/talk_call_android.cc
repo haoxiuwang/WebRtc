@@ -28,6 +28,7 @@ rtc::Thread* my_workerthread = NULL;
 rtc::Thread* my_clientthread = NULL;
 void* sv_local = NULL;
 void* sv_remote = NULL;
+int current_Camera = 0;
 
 //static JavaVM* g_vm = NULL;
 static jobject jObj_;
@@ -550,6 +551,13 @@ JOWW(void, NativeWebRtcTransport_sendCameraStop)(JNIEnv* jni, jobject obj) {
 
 	callBack_Test_Method("JNICameraStop");
   SendCommand((int)S_STOP_CAPTURE, NULL);
+
+}
+
+JOWW(void, NativeWebRtcTransport_sendSwitchCamera)(JNIEnv* jni, jobject obj) {
+
+	callBack_Test_Method("JNISwitchCamera");
+  SendCommand((int)S_SWITCH_CAMERA, NULL);
 
 }
 

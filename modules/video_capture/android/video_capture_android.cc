@@ -158,18 +158,19 @@ int32_t VideoCaptureAndroid::Init(const int32_t id,
   jmethodID ctor = env->GetMethodID(g_java_capturer_class, "<init>", "(IJ)V");
   assert(ctor);
   jlong j_this = reinterpret_cast<intptr_t>(this);
+
   _jCapturer = env->NewGlobalRef(
-      env->NewObject(g_java_capturer_class, ctor, camera_id, j_this));
+      env->NewObject(g_java_capturer_class, ctor, id, j_this));
   assert(_jCapturer);
   _rotation = kVideoRotation_0;
   return 0;
 }
 
 VideoCaptureAndroid::~VideoCaptureAndroid() {
-  callBack_Test_Method("VideoCaptureAndroid::~VideoCaptureAndroid");
   // Ensure Java camera is released even if our caller didn't explicitly Stop.
   if (_captureStarted)
     StopCapture();
+//edited
   AttachThreadScoped ats(g_jvm);
   ats.env()->DeleteGlobalRef(_jCapturer);
 }
@@ -177,7 +178,6 @@ VideoCaptureAndroid::~VideoCaptureAndroid() {
 int32_t VideoCaptureAndroid::StartCapture(
     const VideoCaptureCapability& capability) {
   CriticalSectionScoped cs(&_apiCs);
-  callBack_Test_Method("VideoCaptureAndroid::StartCapture");
   AttachThreadScoped ats(g_jvm);
   JNIEnv* env = ats.env();
 

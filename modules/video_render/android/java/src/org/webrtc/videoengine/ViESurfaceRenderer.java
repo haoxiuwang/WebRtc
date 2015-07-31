@@ -52,7 +52,7 @@ public class ViESurfaceRenderer implements Callback {
     }
 
     public ViESurfaceRenderer(SurfaceView view) {
-     surface = remotePreview;
+     surface = remotePreview != null ? remotePreview : view;
      surfaceHolder = surface.getHolder();
         if(surfaceHolder == null){
             return;

@@ -65,6 +65,7 @@
 #include "webrtc/libjingle/xmpp/presenceouttask.h"
 #include "webrtc/p2p/client/basicportallocator.h"
 #include "webrtc/libjingle/session/sessionmanagertask.h"
+#include "talk/media/base/videocapturer.h"
 
 //edited multi-platforms videorender
 
@@ -78,7 +79,7 @@
 #elif defined(ANDROID)
 #include "talk/media/devices/androidvideorenderer.h"
 #include "webrtc/libjingle/examples/call/talk_call_android.h"
-#elif defined(LINUX) && defined(HAVE_GTK)
+#elif defined(LINUX)
 #include "talk/media/devices/gtkvideorenderer.h"
 #elif defined(WEBRTC_APPRTC_RENDERER)
 #include "talk/media/devices/apprtcvideorenderer.h"
@@ -300,6 +301,12 @@ void CallClient::ParseLine(int command, ThreadShareData* data)
 			console_->PrintLine("Failed to initiate call.");
 		}
 	}
+	else if(command == S_START_PREVIEW_CAPTURE){
+		Preview_StartVideoCapture();
+	}
+	else if(command == S_STOP_PREVIEW_CAPTURE){
+		Preview_StopVideoCapture();
+	}
 	else if(call_){
 
 		#pragma region AcceptOrReject
@@ -351,7 +358,9 @@ void CallClient::ParseLine(int command, ThreadShareData* data)
 					{
 						StopVideoCapture(false);
 					}
-
+					#if defined(ANDROID)
+					current_Camera = 0;
+					#endif
 					this->StartVideoCapture(false);
 				}
 			}
@@ -361,7 +370,6 @@ void CallClient::ParseLine(int command, ThreadShareData* data)
 					if(video_state_ == State_Video)
 					{
 						StopVideoCapture(false);
-						
 					}
 					this->StartVideoCapture(true);
 				}
@@ -369,6 +377,16 @@ void CallClient::ParseLine(int command, ThreadShareData* data)
 			else if(command == S_STOP_CAPTURE){
 				if(video_state_ != State_None){
 					StopVideoCapture(true);
+				}
+			}
+			else if(command == S_SWITCH_CAMERA){
+				if(video_state_ == State_Video)
+				{
+					StopVideoCapture(false);
+					#if defined(ANDROID)
+					current_Camera = current_Camera == 0 ? 1 : 0;
+					#endif
+					this->StartVideoCapture(false);
 				}
 			}
 			else if(command == S_RESTART_CAPTURE){
@@ -422,6 +440,10 @@ void CallClient::ParseLine(int command, ThreadShareData* data)
 
 	if(data)
            delete data;
+
+			#if defined(ANDROID)
+			callBack_Test_Method("CallClient::Parseline::delete data");
+			#endif
 }
 
 CallClient::CallClient(buzz::XmppClient* xmpp_client,
@@ -656,71 +678,129 @@ bool CallClient::StartVideoCapture(bool isScreencast)
 {
 	if(!call_)return false;
 	cricket::Session* session = GetFirstSession();
-	if (!session)return false;
-	
-	if(call_->has_video())
-	{
-		uint32 ssrc = call_->GetSsrc(session,true);
+	if (!session) return false;
+	//wf
+	//if(!call_->has_video())return false;
 
-		if(call_->StartVideoCapture(session, ssrc, isScreencast) && call_->getcapturer())
-		{
-			console_->PrintLine("startvideocap succeed");
+	if(video_state_ != State_None)return false;
 
-			cricket::StreamParams stream;
-			stream.ssrcs.push_back(ssrc);
-			if(isScreencast)
-			{
-				video_state_= State_Screencast;
-				stream.id = "screencast";
-			}
-			else{
-				video_state_=State_Video;
-				stream.id = "video";
-			}
+	uint32 ssrc = call_->GetSsrc(session,true);
 
-            stream.type = "start";
-
-			if(local_renderer_ == NULL)
-				local_renderer_ = CreatVideoRenderer(true, local_width_, local_height_);
-
-			if(local_renderer_ != NULL)
-				call_->SetLocalRenderer(local_renderer_);
-
-			cricket::VideoContentDescription* video = call_->CreateVideoStreamUpdate(stream);
-			call_->SendVideoStreamUpdate(session, video);
-
-			return true;
-		}
+	if(!call_->StartVideoCapture(session, ssrc, isScreencast)){
+		#if defined(ANDROID)
+		callBack_Test_Method("if(!call_->StartVideoCapture");
+		#endif
+		console_->PrintLine("if(!call_->StartVideoCapture");
+		video_state_ = State_Error;
+		return false;
 	}
-	return false;
+	#if defined(ANDROID)
+	callBack_Test_Method("call_->StartVideoCapture == true");
+	#endif
+
+	console_->PrintLine("video_state_=  isScreencast ? State_Screencast");
+	video_state_=  isScreencast ? State_Screencast : State_Video;
+
+	if(local_renderer_ == NULL)
+		local_renderer_ = CreatVideoRenderer(true, local_width_, local_height_);
+
+	if(local_renderer_ != NULL)
+		call_->SetLocalRenderer(local_renderer_);
+
+	return true;	
+	
 }
+
+bool CallClient::Preview_StartVideoCapture()
+{
+	preview_capturer_ = media_client_->channel_manager()->CreateVideoCapturer(false);
+		
+
+	if (!preview_capturer_) {
+		LOG(LS_WARNING) << "Could not create screencast capturer.";
+		return false;
+	}
+
+console_->PrintLine("format = call_->ScreencastFormatFromFps(-1);");
+	cricket::VideoFormat format = call_->ScreencastFormatFromFps(-1);
+
+console_->PrintLine("media_client_->channel_manager()->StartVideoCapture");
+	if (!media_client_->channel_manager()->StartVideoCapture(
+		preview_capturer_, format)) {
+			LOG(LS_WARNING) << "Could not start video capture.";
+
+		delete preview_capturer_; // wf
+		preview_capturer_ = NULL;
+		return false;
+	}
+
+	if(local_renderer_ == NULL)
+		local_renderer_ = CreatVideoRenderer(true, local_width_, local_height_);
+
+	if(local_renderer_ != NULL)
+		call_->SetLocalRenderer(local_renderer_);
+
+	return true;
+}
+
+
+bool CallClient::Preview_StopVideoCapture()
+{	
+	cricket::VideoFormat format = call_->ScreencastFormatFromFps(-1);
+
+	if(!local_renderer_ )return false;
+	if( !media_client_->channel_manager()->RemoveVideoRenderer(preview_capturer_, local_renderer_))
+		{
+			LOG(LS_WARNING) << "Cannot remove local renderer";
+			return false;
+		}
+	delete local_renderer_;
+	local_renderer_=NULL;
+
+	if(!media_client_->channel_manager()->StopVideoCapture(preview_capturer_, format))
+		{
+			LOG(LS_WARNING) << "Cannot stop current capture";
+			return false;
+		}
+
+	delete preview_capturer_;
+	preview_capturer_  = NULL;
+	return true;
+
+}
+
 
 //edited crossplatforms version testing
 bool CallClient::StopVideoCapture(bool removeRenderer){
-	if(video_state_ != State_None || video_state_ != State_Error )
-	{
-		if(call_->StopVideoCapture(removeRenderer)){
+
+			if(!call_)return false;
+			cricket::Session* session = GetFirstSession();
+			if (!session)return false;
+
+	if(video_state_ == State_None || video_state_ == State_Error )return false;
+	
+		uint32 ssrc = call_->GetSsrc(session,true);
+
+		if(!call_->StopVideoCapture(session, ssrc, video_state_ == VideoState::State_Screencast)){
+
+		video_state_ = State_Error;
+return false;
+		}
 			if(removeRenderer && local_renderer_){
 				delete local_renderer_;
 				local_renderer_ = NULL;
 			}
 
-			if(!call_)return false;
-			cricket::Session* session = GetFirstSession();
-			if (!session)return false;
-			video_state_ = State_None;
-			cricket::StreamParams stream;
-			stream.id = video_state_ == VideoState::State_Video ? "video" : "screencast";
-			stream.type = "stop";
-			cricket::VideoContentDescription* video = call_->CreateVideoStreamUpdate(stream);
-			call_->SendVideoStreamUpdate(session, video);
 			video_state_ = State_None;
 
+
+			#if defined(ANDROID)
+			callBack_Test_Method("CallClient::StopVideoCapture");
+			#endif
 			return true;
-		}
-		video_state_ = State_Error;
-	}
-	return false;
+		
+	
+	
 }
 
 //edited android mac version ok
@@ -754,6 +834,7 @@ bool CallClient::StopVideoCapture(bool removeRenderer){
 
 //edited 创建多平台Renderer
 cricket::VideoRenderer* CallClient::CreatVideoRenderer(bool isLocal, int width, int height){
+console_->PrintLine("CallClient::CreatVideoRenderer");
 		cricket::VideoRenderer* renderer_ = NULL;
 
 #if defined(WIN32)
@@ -764,7 +845,8 @@ cricket::VideoRenderer* CallClient::CreatVideoRenderer(bool isLocal, int width, 
 		callBack_Test_Method("if(sv_local)");
 		if(sv_local)
 			renderer_ = new cricket::AndroidVideoRenderer(0, 0, sv_local, webrtc::VideoRenderType::kRenderAndroid);
-#elif defined(LINUX) && defined(HAVE_GTK)
+#elif defined(LINUX)
+		console_->PrintLine("new cricket::GtkVideoRenderer");
 		renderer_ = new cricket::GtkVideoRenderer(width, height);
 #elif defined(WEBRTC_APPRTC_RENDERER)
 		renderer_ = new cricket::ApprtcVideoRenderer(width, height, isLocal);
@@ -1670,6 +1752,7 @@ void CallClient::OnMediaStreamsUpdate(cricket::Call* call,
 	cricket::Session* session,
 	const cricket::MediaStreams& added,
 	const cricket::MediaStreams& removed) {
+ console_->PrintLine("CallClient::OnMediaStreamsUpdate.");
 		if (call && call->has_video()) {
 			for (std::vector<cricket::StreamParams>::const_iterator 
 				it = removed.video().begin(); it != removed.video().end(); ++it) {
@@ -1682,6 +1765,7 @@ void CallClient::OnMediaStreamsUpdate(cricket::Call* call,
 					}
 			}
 
+ console_->PrintLine("RenderStreams(call, ");
 			RenderStreams(call, session, added.video(), true);
 			SendViewRequest(call, session);
 		}
@@ -1720,9 +1804,11 @@ void CallClient::RenderStreams(
     cricket::Session* session,
     const std::vector<cricket::StreamParams>& video_streams,
     bool enable) {
+ console_->PrintLine("std::vector<cricket::StreamParams>::const_iterator stream");
   std::vector<cricket::StreamParams>::const_iterator stream;
   for (stream = video_streams.begin(); stream != video_streams.end();
        ++stream) {
+ console_->PrintLine("for (stream = video_streams.begin(); ");
     RenderStream(call, session, *stream, enable);
   }
 }

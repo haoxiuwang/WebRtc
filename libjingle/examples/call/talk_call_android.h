@@ -11,6 +11,8 @@
 
 //以下定义在 webrtc/examples/android/my_android/jni_android/talk_call_android.cc
 
+extern int current_Camera;
+
 //SurfaceView
 extern void* sv_local;
 extern void* sv_remote;

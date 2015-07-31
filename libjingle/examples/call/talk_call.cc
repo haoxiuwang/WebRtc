@@ -6,6 +6,10 @@
 #include "webrtc/libjingle/examples/call/console_dll.h"
 #endif
 
+#if defined(ANDROID)
+#include "webrtc/libjingle/examples/call/talk_call_android.h"
+#endif
+
 class DebugLog : public sigslot::has_slots<> {
 public:
 	DebugLog() :
@@ -400,7 +404,13 @@ void Login(std::string name, std::string pword, std::string res) {
 #endif
 
   buzz::XmppPump pump;
+#if defined(TALK_CALL_CONSOLE)
+  CallClient *client = new CallClient(pump.client(), caps_node, caps_ver, false);
+  Console *console = new Console_Impl(main_thread, client);
+#else
   CallClient *client = new CallClient(pump.client(), caps_node, caps_ver, true);
+  Console *console = new Console_Dll(main_thread, client);
+#endif
 
   /*if (FLAG_voiceinput || FLAG_voiceoutput ||
       FLAG_videoinput || FLAG_videooutput) {
@@ -411,12 +421,6 @@ void Login(std::string name, std::string pword, std::string res) {
             FLAG_videoinput, FLAG_videooutput);
     client->SetMediaEngine(engine);
   }*/
-
-#if defined(TALK_CALL_CONSOLE)
-  Console *console = new Console_Impl(main_thread, client);
-#else
-  Console *console = new Console_Dll(main_thread, client);
-#endif
 
   client->SetAutoAccept(auto_accept);
   client->SetPmucDomain(pmuc_domain);
@@ -440,10 +444,19 @@ void Login(std::string name, std::string pword, std::string res) {
   //Print(("Logging in to " + server + " as " + jid.Str() + "\n").c_str());
   pump.DoLogin(xcs, new buzz::XmppSocket(buzz::TLS_DISABLED), new XmppAuth());
   main_thread->Run();
+#if defined(ANDROID)
+callBack_Test_Method("pump.DoDisconnect();");
+#endif
   pump.DoDisconnect();
 
+#if defined(ANDROID)
+callBack_Test_Method("console->Stop();");
+#endif
   console->Stop();
 
+#if defined(ANDROID)
+callBack_Test_Method("delete console;");
+#endif
   delete console;
   delete client;
 

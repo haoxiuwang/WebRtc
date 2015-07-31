@@ -71,6 +71,7 @@ public class VideoCaptureAndroid implements PreviewCallback, Callback {
   }
 
   public VideoCaptureAndroid(int id, long native_capturer) {
+    Log.i("mylogchat", "Android_VideoCaptureAndroid_id::" + id);
     this.id = id;
     this.native_capturer = native_capturer;
     this.context = GetContext();

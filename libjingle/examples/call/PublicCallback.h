@@ -310,12 +310,12 @@ enum Enum_SendMessage
 
 #pragma region Capture及Renderer
 	/// <summary>
-	/// 开启远程桌面
+	/// 开启远程桌面 109
 	/// </summary>
 	S_START_SCREENCAST,
 
 	/// <summary>
-	/// 开启摄像头捕获
+	/// 开启摄像头捕获 110
 	/// </summary>
 	S_START_CAMERA,
 
@@ -323,6 +323,22 @@ enum Enum_SendMessage
 	/// 停止捕获视频
 	/// </summary>
 	S_STOP_CAPTURE,
+
+	/// <summary>
+	/// 切换摄像头
+	/// 0 = 后置摄像头, 1 = 前置摄像头, 默认为 0
+	/// </summary>
+	S_SWITCH_CAMERA,
+
+	/// <summary>
+	/// 开启本地摄像头预览 113
+	/// </summary>
+	S_START_PREVIEW_CAPTURE,
+
+	/// <summary>
+	/// 关闭本地摄像头预览 114
+	/// </summary>
+	S_STOP_PREVIEW_CAPTURE,
 
 	//unused
 	/// <summary>

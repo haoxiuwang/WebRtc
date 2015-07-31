@@ -20,20 +20,21 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class id {
-        public static final int Accept=0x7f060005;
-        public static final int HangUp=0x7f06000b;
+        public static final int Accept=0x7f060006;
+        public static final int HangUp=0x7f06000c;
         public static final int Login=0x7f060000;
-        public static final int Mute=0x7f060007;
-        public static final int Reject=0x7f060006;
+        public static final int Mute=0x7f060008;
+        public static final int Reject=0x7f060007;
         public static final int SendVCall=0x7f060002;
         public static final int StartCamera=0x7f060003;
         public static final int StopCamera=0x7f060004;
-        public static final int UnMute=0x7f060008;
-        public static final int VMute=0x7f060009;
-        public static final int VUnMute=0x7f06000a;
+        public static final int SwitchCamera=0x7f060005;
+        public static final int UnMute=0x7f060009;
+        public static final int VMute=0x7f06000a;
+        public static final int VUnMute=0x7f06000b;
         public static final int VcallState=0x7f060001;
-        public static final int llLocalView=0x7f06000c;
-        public static final int llRemoteView=0x7f06000d;
+        public static final int llLocalView=0x7f06000d;
+        public static final int llRemoteView=0x7f06000e;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

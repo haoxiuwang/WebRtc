@@ -69,5 +69,6 @@ CommandData* cd = (CommandData*)msg->pdata;
     client_->ParseLine(cd->command(),cd->data());
     break;
   }
+
 delete cd;
 }

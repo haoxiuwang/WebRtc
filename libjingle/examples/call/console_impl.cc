@@ -324,12 +324,15 @@ MyPrint(s);
 	case S_UNMUTE:
 	case S_VIDEO_MUTE:
 	case S_VIDEO_UNMUTE:
+	case S_START_PREVIEW_CAPTURE:
+	case S_STOP_PREVIEW_CAPTURE:
 		{
 			client_->ParseLine(command, NULL);
 		}
 		break;
 	}
 
+MyPrint("client_->ParseLine");
 	client_->ParseLine(command, data);
 }
 

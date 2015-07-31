@@ -486,6 +486,7 @@ public class NativeWebRtcTransport {
     public native void sendScreencastStart();
     public native void sendCameraStart();
     public native void sendCameraStop();
+    public native void sendSwitchCamera();
     //libjingle Œ¥ µœ÷¥À√¸¡Ó
     public native void sendCameraRestart(int width, int height, int interval, int colorspace);
 
